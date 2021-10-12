@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block link %}
+	<!-- Font Icon -->
+	<link
+	rel="stylesheet" href="{{ asset ('fonts/material-icon/css/material-design-iconic-font.min.css') }}">
+
+	<!-- Main css -->
+	<link rel="stylesheet" href="{{asset ('css/style.css')}}">
+{% endblock %}
+
+{% block main %}
+
+	<section class="signup">
+		<div class="container">
+			<div class="signup-content">
+				<div class="signup-form">
+					<h2 class="form-title">Mon profil</h2>
+					{{ form_start(detailForm) }}
+					<div class="form-group">
+						<i class="zmdi zmdi-account material-icons-name zmdi-hc-2x"></i>
+						{{ form_row(detailForm.pseudo, {label : ' '}) }}
+					</div>
+					<div class="form-group">
+						<i class="zmdi zmdi-email zmdi-hc-2x"></i>
+						{{ form_row(detailForm.mail, {label : ' '}) }}
+					</div>
+					<div class="form-group">
+						<i class="zmdi zmdi-account material-icons-name zmdi-hc-2x"></i>
+						{{ form_row(detailForm.nom, {label : ' '}) }}
+					</div>
+					<div class="form-group">
+						<i class="zmdi zmdi-account material-icons-name zmdi-hc-2x"></i>
+						{{ form_row(detailForm.prenom, {label : ' '}) }}
+					</div>
+					<div class="form-group">
+						<i class="zmdi zmdi-phone-ring zmdi-hc-2x"></i>
+						{{ form_row(detailForm.telephone, {label : ' '}) }}
+					</div>
+					<div class="form-group">
+						{{ form_row(detailForm.motDePasse) }}
+					</div>
+					<div class="form-group form-button">
+						<input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+					</div>
+					{{ form_end(detailForm) }}
+				</div>
+				<div class="signup-image">
+					<figure><img src="{{ asset ('images/signup-image.jpg') }}" alt="sing up image"></figure>
+				</div>
+			</div>
+		</div>
+	</section>
+	{# <div class="formulaire w-100 text-center">
+																		<h1>Mon profil</h1>
+																		{{ form_start(detailForm) }}
+																		{{ form_row(detailForm.pseudo, {label : 'Pseudo :'}) }}
+																		{{ form_row(detailForm.nom, {label : 'Nom :'}) }}
+																		{{ form_row(detailForm.prenom, {label : 'Prénom :'}) }}
+																		{{ form_row(detailForm.mail, {label : 'E-mail :' }) }}
+																		{{ form_row(detailForm.telephone, {label : 'Téléphone :'}) }}
+																		{{ form_row(detailForm.motDePasse) }}
+																
+																
+																		<input type="submit" class="btn btn-lg btn-primary" value="Enregistrer"/>
+																		<a href="{{ path('user') }}" class="btn btn-lg btn-danger">Annuler</a>
+																		{{ form_end(detailForm) }}
+																	</div> #}
+{% endblock %}
