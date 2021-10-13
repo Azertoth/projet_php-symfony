@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ParticpantRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,17 +22,15 @@ class UserController extends AbstractController
 
 
     /**
-     * @Route("/detail/{id}", name="user_detail")
+     * @Route("/detail", name="user_detail")
      */
-    public function detailUser(int $id, UserRepository $userRepository): Response
+    public function detailUser(ParticpantRepository $uRepository): Response
     {
-        $user = $userRepository->find($id);
-
-        if (!$user) {
-            throw $this->createNotFoundException("Cet utilisateur n'existe pas!");
-        }
-        return $this->render('/detailUser.html.twig', [
-            "user" => $user
-        ]);
+        $user = $uRepository->find(1);
+       
+        // if (!$user) {
+        //     throw $this->createNotFoundException("Cet utilisateur n'existe pas!");
+        // }
+        return $this->render('user/detail.html.twig');
     }
 }
