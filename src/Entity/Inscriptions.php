@@ -29,10 +29,12 @@ class Inscriptions
     private $sortie;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Participants::class)
+     * @ORM\ManyToOne(targetEntity=Particpant::class, inversedBy="inscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $participant;
+    private $participants_no_participant;
+
+    
 
     public function getId(): ?int
     {
@@ -63,15 +65,17 @@ class Inscriptions
         return $this;
     }
 
-    public function getParticipant(): ?Participants
+    public function getParticipantsNoParticipant(): ?Particpant
     {
-        return $this->participant;
+        return $this->participants_no_participant;
     }
 
-    public function setParticipant(?Participants $participant): self
+    public function setParticipantsNoParticipant(?Particpant $participants_no_participant): self
     {
-        $this->participant = $participant;
+        $this->participants_no_participant = $participants_no_participant;
 
         return $this;
     }
+
+    
 }
