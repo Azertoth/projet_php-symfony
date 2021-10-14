@@ -22,15 +22,43 @@ class UserController extends AbstractController
 
 
     /**
-     * @Route("/detail", name="user_detail")
+     * @Route("/monProfil", name="mon_profil")
      */
-    public function detailUser(ParticpantRepository $uRepository): Response
+    public function monProfil(): Response
     {
-        $user = $uRepository->find(1);
-       
-        // if (!$user) {
-        //     throw $this->createNotFoundException("Cet utilisateur n'existe pas!");
-        // }
-        return $this->render('user/detail.html.twig');
+        $user = $this->getUser();
+
+        if (!$user) {
+
+            return $this->render('main/login.html.twig');
+        }
+        return $this->render('user/monProfil.html.twig');
+    }
+    /**
+     * @Route("/profilParticipant", name="profil_participant")
+     */
+    public function profilPaticipant(): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+
+            return $this->render('main/login.html.twig');
+        }
+        return $this->render('user/profilParticipant.html.twig');
+    }
+
+    /**
+     * @Route("/editProfil", name="edit_profil")
+     */
+    public function editProfil(): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user) {
+
+            return $this->render('main/login.html.twig');
+        }
+        return $this->render('user/editProfil.html.twig');
     }
 }

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+{% block main%}
+	<div
+		class="container mt-5 d-flex justify-content-center">
+
+		{# <div class="row container d-flex mt-5 justify-content-center"> #}
+		<div class="col-12">
+			<div class="card user-card-full">
+				<div class="row m-l-0 m-r-0">
+					<div class="col-sm-4 bg-c-lite-green user-profile">
+						<div class="card-block text-center text-white">
+							<div class="m-b-25">
+								<img
+								src="images/icons/pngegg.png" alt="sing up image" class="img-radius w-25">
+							{# <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image"> #}
+							</div>
+							<h3 class="f-w-800">{{app.user.pseudo}}</h3>
+
+							<a class="nav-link" href="{{path('edit_profil') }}">
+								<i class=" mdi mdi-square-edit-outline feather icon-edit m-t-10 "></i>
+							</a>
+						</div>
+					</div>
+					<div class="col-sm-8">
+						<div class="card-block">
+							<h5 class="m-b-20 p-b-5 b-b-default f-w-600">Mon profil</h5>
+							<div class="row">
+								<div class="col-sm-6">
+									<p class="m-b-10 f-w-600">Prénom:</p>
+									<h6 class="text-muted f-w-400">{{app.user.prenom}}</h6>
+								</div>
+								<div class="col-sm-6">
+									<p class="m-b-10 f-w-600">Nom:</p>
+									<h6 class="text-muted f-w-400">{{app.user.nom}}</h6>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<p class="m-b-10 f-w-600">Téléphone:</p>
+									<h6 class="text-muted f-w-400">{{app.user.telephone}}</h6>
+								</div>
+								<div class="col-sm-6">
+									<p class="m-b-10 f-w-600">Email:</p>
+									<h6 class="text-muted f-w-400">{{app.user.mail}}</h6>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col">
+									<p class="m-b-10 f-w-600">Ville de rattachement:</p>
+									<h6 class="text-muted f-w-400">{{app.user.telephone}}</h6>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{# </div> #}
+
+
+{% endblock %}

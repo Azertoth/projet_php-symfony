@@ -1,32 +1,35 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-	<a class="navbar-brand" href="#">LOGO SORTIR.COM</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-		<span class="navbar-toggler-icon"></span>
-	</button>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color:#EC3174 !important">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#"><img src="images/icons/friends.png" alt="logo" style="width:70px">
+			On va sortir</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-				<a class="nav-link" href="#">Villes
-				</a>
-			</li>
-			<li class="nav-item active">
-				<a class="nav-link" href="#">Sites
-				</a>
-			</li>
-			<li class="nav-item active">
-				<a class="nav-link" href="#">Accueil
-				</a>
-			</li>
-			<li class="nav-item active">
-				<a class="nav-link" href="#">Mon profil
-				</a>
-			</li>
-		</ul>
-		<form class="form-inline my-2 my-lg-0">
-			<a class="nav-link" href="{{path('app_logout') }}">Déconnexion
-				<span class="sr-only">(current)</span>
-			</a>
-		</form>
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav me-auto">
+				<li class="nav-item">
+					<a class="nav-link active" href="#">Villes
+						<span class="visually-hidden"></span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Sites</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Accueil</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{path('mon_profil')}}">Mon profil
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{path('profil_participant')}}">
+						profil Participant
+					</a>
+				</li>
+			</ul>
+
+		</div>
 	</div>
 </nav>
