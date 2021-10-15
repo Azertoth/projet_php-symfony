@@ -19,6 +19,34 @@ class InscriptionsRepository extends ServiceEntityRepository
         parent::__construct($registry, Inscriptions::class);
     }
 
+    /**
+
+     * @return Inscriptions[] Returns an array of Inscriptions objects
+
+     */
+
+
+
+    public function findAllwithParticipant()
+
+    {
+
+        return $this->createQueryBuilder('i')
+
+            ->join('i.participants_no_participant', 'p')
+
+            ->addSelect('p')
+
+            ->groupBy('i.sortie')
+
+            ->getQuery()
+
+            ->getResult();
+
+        //->getScalarResult();
+
+    }
+
     // /**
     //  * @return Inscriptions[] Returns an array of Inscriptions objects
     //  */

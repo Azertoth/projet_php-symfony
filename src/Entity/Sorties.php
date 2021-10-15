@@ -77,16 +77,18 @@ class Sorties
      */
     private $site;
 
-
     /**
-     * @ORM\ManyToOne(targetEntity=Participants::class)
-     * @ORM\JoinColumn(nullable=true)
+
+     * @ORM\ManyToOne(targetEntity=Particpant::class)
+     * @ORM\JoinColumn(nullable=false)
+
      */
     private $organisateur;
 
+
+
     public function __construct()
     {
-
     }
 
     public function getId(): ?int
@@ -226,12 +228,12 @@ class Sorties
         return $this;
     }
 
-    public function getOrganisateur(): ?Participants
+    public function getOrganisateur(): ?Particpant
     {
         return $this->organisateur;
     }
 
-    public function setOrganisateur(?Participants $organisateur): self
+    public function setOrganisateur(?Particpant $organisateur): self
     {
         $this->organisateur = $organisateur;
 

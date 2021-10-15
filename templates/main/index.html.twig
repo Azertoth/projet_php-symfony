@@ -1,3 +1,59 @@
-{% include 'inc/header.html.twig'%}
-{% include 'inc/nav.html.twig'%}
-{% include 'inc/footer.html.twig'%}
+{% extends 'base.html.twig' %}
+
+{% block main%}
+	<div class="container">
+		<div>Date du jour :
+			{{ "now"|date('d/m/Y') }}</div>
+		<div>Participant :
+			{{ app.user.pseudo }}</div>
+	</div>
+	<div class="container">
+		<h2>Filter les sorties</h2>
+		<div class="container row">
+			<div class="container col-1">
+				<div class="container col-1">
+					<label for="site">Site</label>
+					<select name="site" id="site">
+						<option value="1">test1</option>
+						<option value="2">test2</option>
+						<option value="3">test3</option>
+					</select>
+				</div>
+				<div class="container">
+					<label for="input_search">Le nom de la sortie contient :
+					</label>
+					<input type="text" id="input_search" name="input_search">
+				</div>
+				<div class="container">
+					Entre
+					<input type="date" name="date_debut" id="date_debut">
+					et
+					<input type="date" name="date_fin" id="date_fin">
+				</div>
+			</div>
+			<div class="container col-1">
+				<div class="container row">
+					<input type="checkbox" name="sortie_orga" id="sortie_orga"><label for="sortie_orga">Sorties dont je suis organisateur/trice</label>
+				</div>
+				<div class="container row">
+					<input type="checkbox" name="sortie_inscrit" id="sortie_inscrit"><label for="sortie_inscrit">Sorties auxquelles je suis inscrit/e</label>
+				</div>
+				<div class="container row">
+					<input type="checkbox" name="sortie_non_inscrit" id="sortie_non_inscrit"><label for="sortie_non_inscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
+				</div>
+				<div class="container row">
+					<input type="checkbox" name="sortie_passee" id="sortie_passee"><label for="sortie_passee">Sorties passées</label>
+				</div>
+			</div>
+			<div class="container col-1">
+				<button> Rechercher</button>
+			</div>
+		</div>
+		<div class="container">
+			<h1>Affichage tableau</h1>
+		</div>
+		<div class="container">
+			<a href="{{ path('sorties_create') }}">Créer une sortie</a>
+		</div>
+	</div>
+{% endblock %}
