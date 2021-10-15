@@ -5,9 +5,30 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		{% block head %}{% endblock %}
+		{% block head %}
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css">
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+			<link
+			rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+
+			<!--===============================================================================================-->
+			<link
+			rel="stylesheet" type="text/css" href="{{ asset('css/profil.css')}}">
+			<!-- Font Icon -->
+			<link
+			rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+			<!-- profilParticipant css -->
+			<link
+			rel="stylesheet" href="{{asset('css/profilParticipant.css')}}">
+			<!-- JS profilParticipant-->
+			<script src="vendor/jquery/jquery.min.js"></script>
+			<script src="js/main.js"></script>
+			{% endblock %}
         <title>
-			{% block title %}Document
+			{% block title %}Sortir.Com
 			{% endblock %}
 		</title>
 	</head>
