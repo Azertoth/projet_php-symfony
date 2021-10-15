@@ -24,4 +24,6 @@ class MainController extends AbstractController
         //$tab = compact('inscriptions');
         return $this->render('main/index.html.twig', $tab);
     }
+
+
 }

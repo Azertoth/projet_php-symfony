@@ -1,0 +1,74 @@
+
+{% extends 'base.html.twig' %}
+
+{% block main%}
+    <h2 class="text-center display-4 lead">Ajouter une sortie</h2>
+    <div class="container">
+        {{ form_start(sortieForm) }}
+        {{ form_errors(sortieForm) }}
+
+        <div class="row">
+            <div class="col-5">
+                {{ form_row(sortieForm.nomSortie) }}
+                {{ form_row(sortieForm.dateHeureDebut) }}
+                {{ form_row(sortieForm.dateLimiteInscription) }}
+                {{ form_row(sortieForm.nbInscriptionsMax) }}
+                {{ form_row(sortieForm.duree) }}
+                {{ form_row(sortieForm.infosSortie) }}
+
+            </div>
+
+            <div class="col-5">
+                {{ form_row(sortieForm.lieu) }}
+                {{ form_row(sortieForm.site) }}
+
+
+                    <div class="form-row">
+                        <div class>
+                            <label for="input">Rue:</label>
+                        </div>
+                        <div class>
+                            <label for="input">Code Postal:</label>
+
+                        </div>
+                        <div class>
+                            <label for="input">Latitude:</label>
+                            <input type="text" class="form-control" id="inputPassword4" >
+                        </div>
+                        <div class>
+                            <label for="input">Longitude:</label>
+                            <input type="text" class="form-control" id="inputPassword4" >
+                        </div>
+                    </div>
+
+            </div>
+
+
+                <div class="col-2">
+                    <button type="button" class="btn btn-default btn-lg" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    </button>
+                </div>
+        </div>
+<br>
+
+        <div class="container">
+            <div class="row">
+            <div class="col-4">
+                {{ form_row(sortieForm.save) }}
+            </div>
+            <div class="col-4">
+                {{ form_row(sortieForm.publish) }}
+            </div>
+            <div class="col-4">
+                {{ form_row(sortieForm.cancel) }}
+            </div>
+            </div>
+        </div>
+
+        {{ form_end(sortieForm) }}
+
+
+    </div>
+
+{% endblock %}
