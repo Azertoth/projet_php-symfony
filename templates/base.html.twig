@@ -31,9 +31,28 @@
 			{% block title %}On Va Sortir
 			{% endblock %}
 		</title>
+
 	</head>
+
 	<body>
 		{% include "inc/nav.html.twig" %}
+		<div class="container">
+
+			{% for label, messages in app.flashes %}
+
+				{%  for message in messages %}
+
+					<div class="alert-{{ label }}">
+
+						{{ message }}
+
+					</div>
+
+				{% endfor %}
+
+			{% endfor %}
+
+		</div>
 		{% block main %}{% endblock %}
 		{% include 'inc/footer.html.twig'%}
 	</body>
