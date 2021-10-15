@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block main%}
+
+<h1 class="text-center display-4 lead">Modifier</h1>
+
+
+    <div class="container">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+
+        <div class="row">
+            <div class="col-5">
+                {{ form_row(form.nomSortie) }}
+                {{ form_row(form.dateHeureDebut) }}
+                {{ form_row(form.dateLimiteInscription) }}
+                {{ form_row(form.nbInscriptionsMax) }}
+                {{ form_row(form.duree) }}
+                {{ form_row(form.infosSortie) }}
+
+            </div>
+
+
+
+            <div class="col-5">
+                {{ form_row(form.lieu) }}
+                {{ form_row(form.site) }}
+
+
+                <div class="form-row">
+                    <div class>
+                        <label for="input">Rue:</label>
+                    </div>
+                    <div class>
+                        <label for="input">Code Postal:</label>
+
+                    </div>
+                    <div class>
+                        <label for="input">Latitude:</label>
+                        <input type="text" class="form-control" id="inputPassword4" >
+                    </div>
+                    <div class>
+                        <label for="input">Longitude:</label>
+                        <input type="text" class="form-control" id="inputPassword4" >
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <br>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    {{ form_row(form.save) }}
+                </div>
+                <div class="col-4">
+                    {{ form_row(form.publish) }}
+                </div>
+                <div class="col-4">
+                    {{ form_row(form.cancel) }}
+                </div>
+            </div>
+        </div>
+
+
+
+        {{ form_end(form) }}
+
+
+    </div>
+
+
+{% endblock %}

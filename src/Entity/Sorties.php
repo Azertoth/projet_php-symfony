@@ -50,7 +50,7 @@ class Sorties
     private $infosSortie;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string")
      */
     private $etatSortir;
 
@@ -61,7 +61,7 @@ class Sorties
 
     /**
      * @ORM\ManyToOne(targetEntity=Etats::class, inversedBy="sorties")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $etat;
 
@@ -78,8 +78,10 @@ class Sorties
     private $site;
 
     /**
+
      * @ORM\ManyToOne(targetEntity=Particpant::class)
      * @ORM\JoinColumn(nullable=false)
+
      */
     private $organisateur;
 
@@ -166,12 +168,12 @@ class Sorties
         return $this;
     }
 
-    public function getEtatSortir(): ?int
+    public function getEtatSortir(): ?string
     {
         return $this->etatSortir;
     }
 
-    public function setEtatSortir(?int $etatSortir): self
+    public function setEtatSortir(?string $etatSortir): self
     {
         $this->etatSortir = $etatSortir;
 
