@@ -19,32 +19,33 @@ class SortiesRepository extends ServiceEntityRepository
         parent::__construct($registry, Sorties::class);
     }
 
-    // /**
-    //  * @return Sorties[] Returns an array of Sorties objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    /**
+     * @return Sorties[] Returns an array of Sorties objects
+     */
 
-    /*
-    public function findOneBySomeField($value): ?Sorties
+    public function findAllSortiesWithLieuxAndVilles($value)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
+            ->join('s.lieux', 'l')
+            ->addSelect('l')
+            ->join('l.ville', 'v')
+            ->addSelect('v')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
+    public function findOneById($value): ?Sorties
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.lieux', 'l')
+            ->addSelect('l')
+            ->join('l.ville', 'v')
+            ->addSelect('v')
+            ->andWhere('s.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
 }

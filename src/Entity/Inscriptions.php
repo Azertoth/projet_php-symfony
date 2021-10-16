@@ -23,16 +23,17 @@ class Inscriptions
     private $dateInscription;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Sorties::class)
+     * @ORM\ManyToOne(targetEntity=Sorties::class, inversedBy="inscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $sortie;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Particpant::class)
+     * @ORM\ManyToOne(targetEntity=Particpant::class, inversedBy="inscriptions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $participants_no_participant;
+    private $participants;
+
 
 
 
@@ -65,15 +66,20 @@ class Inscriptions
         return $this;
     }
 
-    public function getParticipantsNoParticipant(): ?Particpant
+    public function getParticipants(): ?Particpant
     {
-        return $this->participants_no_participant;
+        return $this->participants;
     }
 
-    public function setParticipantsNoParticipant(?Particpant $participants_no_participant): self
+    public function setParticipants(?Particpant $participants): self
     {
-        $this->participants_no_participant = $participants_no_participant;
+        $this->participants = $participants;
 
         return $this;
+    }
+
+    public function __construct()
+    {
+        $this->dateInscription = new \DateTime('@' . strtotime('now'));
     }
 }

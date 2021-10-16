@@ -34,17 +34,19 @@ class UserController extends AbstractController
         return $this->render('user/monProfil.html.twig');
     }
     /**
-     * @Route("/profilParticipant", name="profil_participant")
+     * @Route("/profilParticipant/{id}", name="profil_participant")
      */
-    public function profilPaticipant(): Response
+    public function profilPaticipant(int $id, ParticpantRepository $pr): Response
     {
-        $user = $this->getUser();
+        $user = $pr->findOneById($id);
+        //dd($user);
 
         if (!$user) {
 
             return $this->render('main/login.html.twig');
         }
-        return $this->render('user/profilParticipant.html.twig');
+        $tab = compact('user');
+        return $this->render('user/profilParticipant.html.twig', $tab);
     }
 
     /**

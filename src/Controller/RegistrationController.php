@@ -22,7 +22,7 @@ class RegistrationController extends AbstractController
         $user = new Particpant();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-        $user->setAdministrateur(true)->setSitesNoSite($site)->setActif(true);
+        $user->setAdministrateur(true)->setSite($site)->setActif(true);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password

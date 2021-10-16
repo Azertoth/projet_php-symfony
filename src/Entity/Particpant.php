@@ -70,15 +70,28 @@ class Particpant implements UserInterface, PasswordAuthenticatedUserInterface
     private $actif;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Site::class)
+     * @ORM\OneToMany(targetEntity=Sorties::class, mappedBy="organisateur")
+     */
+    private $organisateur;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="participants")
+     */
+    private $inscriptions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="participants")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $sites_no_site;
+    private $site;
+
+
 
 
     public function __construct()
     {
-        
+        $this->organisateur = new ArrayCollection();
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -242,17 +255,79 @@ class Particpant implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getSitesNoSite(): ?Site
+    /**
+     * @return Collection|Sorties[]
+     */
+    public function getOrganisateur(): Collection
     {
-        return $this->sites_no_site;
+        return $this->organisateur;
     }
 
-    public function setSitesNoSite(?Site $sites_no_site): self
+    public function addOrganisateur(Sorties $organisateur): self
     {
-        $this->sites_no_site = $sites_no_site;
+        if (!$this->organisateur->contains($organisateur)) {
+            $this->organisateur[] = $organisateur;
+            $organisateur->setOrganisateur($this);
+        }
 
         return $this;
     }
+
+    public function removeOrganisateur(Sorties $organisateur): self
+    {
+        if ($this->organisateur->removeElement($organisateur)) {
+            // set the owning side to null (unless already changed)
+            if ($organisateur->getOrganisateur() === $this) {
+                $organisateur->setOrganisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscriptions[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscriptions $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setParticipants($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscriptions $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getParticipants() === $this) {
+                $inscription->setParticipants(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSite(): ?Site
+    {
+        return $this->site;
+    }
+
+    public function setSite(?Site $site): self
+    {
+        $this->site = $site;
+
+        return $this;
+    }
+
+    
 
   
 

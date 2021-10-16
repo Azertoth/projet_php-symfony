@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Main{% endblock %}
+
+{% block javascripts %}
+<script>
+    $(document).ready(function(){
+        $("#ville").change(function(){
+            var id = $(this).val();
+            $.get("/get-code-p/"+id, function(data, status){
+                //alert("Data: " + data + "\nStatus: " + status);
+                var res=JSON.parse(data);
+                $("#codep").val(res.code);
+              });
+        });
+    });
+</script>
+{% endblock %}
+
+{% block body %}
+<select id="ville">
+    <option value="1" >Nantes</option>
+    <option value="2">Rennes</option>
+    <option value="3">Paris</option>
+</select>
+
+<br>***********************************<br>
+<label>Code:</label><br>
+<input type="text" readonly value="" id="codep">
+
+{% endblock %}
