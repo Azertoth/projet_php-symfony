@@ -40,23 +40,6 @@
 	<body>
 		{% include "inc/nav.html.twig" %}
 		<div class="container">
-<<<<<<< HEAD
-
-			{% for label, messages in app.flashes %}
-
-				{%  for message in messages %}
-
-					<div class="alert-{{ label }}">
-
-						{{ message }}
-
-					</div>
-
-				{% endfor %}
-
-			{% endfor %}
-
-=======
 			{% for label, messages in app.flashes %}
 				{%  for message in messages %}
 					<div class="alert-{{ label }}">
@@ -64,7 +47,6 @@
 					</div>
 				{% endfor %}
 			{% endfor %}
->>>>>>> ae9449065624efc8036c56651f22edc3b25103fc
 		</div>
 		{% block main %}{% endblock %}
 		{% include 'inc/footer.html.twig'%}
