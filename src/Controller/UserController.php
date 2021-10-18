@@ -2,23 +2,18 @@
 
 namespace App\Controller;
 
+use App\Form\ProfilType;
 use App\Repository\ParticpantRepository;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
-    /**
-     * @Route("/login", name="login")
-     */
-    public function index(): Response
-    {
-        return $this->render('security/login.html.twig', [
-            'controller_name' => 'UserController',
-        ]);
-    }
+
 
     /**
      * @Route("/monProfil", name="mon_profil")
@@ -52,14 +47,27 @@ class UserController extends AbstractController
     /**
      * @Route("/editProfil", name="edit_profil")
      */
-    public function editProfil(): Response
+    public function editProfil(Request $request, EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
+        $userForm = $this->createForm(ProfilType::class, $user);
+        $userForm->handleRequest($request);
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+            $user = $userForm->getData();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('mon_profil');
+        }
 
         if (!$user) {
 
             return $this->render('main/login.html.twig');
         }
-        return $this->render('user/editProfil.html.twig');
+        return $this->render('user/editProfil.html.twig', [
+            'userForm' => $userForm->createView(),
+            'user' => $user
+        ]);
     }
 }
