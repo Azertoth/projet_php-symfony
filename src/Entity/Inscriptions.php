@@ -34,7 +34,7 @@ class Inscriptions
      */
     private $participants_no_participant;
 
-    
+
 
     public function getId(): ?int
     {
@@ -76,6 +76,4 @@ class Inscriptions
 
         return $this;
     }
-
-    
 }

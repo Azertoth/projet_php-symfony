@@ -21,6 +21,7 @@ class InscriptionsRepository extends ServiceEntityRepository
 
     /**
 
+
      * @return Inscriptions[] Returns an array of Inscriptions objects
 
      */
@@ -47,22 +48,37 @@ class InscriptionsRepository extends ServiceEntityRepository
 
     }
 
-    // /**
-    //  * @return Inscriptions[] Returns an array of Inscriptions objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Inscriptions[] Returns an array of Inscriptions objects
+      */
+
+
+    public function findAllwithSortie()
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
+            ->join('i.sortie', 's')
+            ->addSelect('COUNT(s)')
+            ->groupBy('s.id')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+        //->getScalarResult();
     }
-    */
+
+//    /**
+//     * @return Inscriptions[] Returns an array of Inscriptions objects
+//     */
+//
+//    public function findAllwithParticipant()
+//    {
+//        return $this->createQueryBuilder('i')
+//            ->join('i.participants_no_participant', 'p')
+//            ->addSelect('p')
+//            ->groupBy('i.sortie')
+//            ->getQuery()
+//            ->getResult();
+//        //->getScalarResult();
+//    }
+
 
     /*
     public function findOneBySomeField($value): ?Inscriptions

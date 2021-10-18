@@ -38,7 +38,7 @@
 {% endblock %}
 
 
-{% block main %}
+{% block main2 %}
 	<form method="post">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -69,26 +69,26 @@
 
 
 		<button class="btn btn-lg btn-primary" type="submit">
-			Sign in
+			Se connecter
 		</button>
 	</form>
 {% endblock %}
 
-{% block main2 %}
+{% block main %}
 
 
 	<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
-			<form class="login100-form validate-form" method="POST">
+			<form class="login100-form validate-form" method="post">
 				<span class="login100-form-title p-b-37">
 					Se connecter
 				</span>
 				<div class="wrap-input100 validate-input m-b-20" data-validate="Enter username">
-					<input class="input100" type="text" name="username" placeholder="username">
+					<input class="input100" type="text" name="pseudo" placeholder="pseudo...">
 					<span class="focus-input100"></span>
 				</div>
 				<div class="wrap-input100 validate-input m-b-25" data-validate="Enter password">
-					<input class="input100" type="password" name="password" placeholder="password">
+					<input class="input100" type="password" name="password" placeholder="mot de passe">
 					<span class="focus-input100"></span>
 				</div>
 				<div class="container-login100-form-btn">

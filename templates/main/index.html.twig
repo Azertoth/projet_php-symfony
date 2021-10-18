@@ -1,59 +1,117 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+	<link rel="stylesheet" href="{{asset('css/main.css')}}">
+{% endblock %}
+
 {% block main%}
-	<div class="container">
+	<div class="container text-right">
 		<div>Date du jour :
 			{{ "now"|date('d/m/Y') }}</div>
 		<div>Participant :
 			{{ app.user.pseudo }}</div>
 	</div>
-	<div class="container">
+	<div class="container m-10">
 		<h2>Filter les sorties</h2>
-		<div class="container row">
-			<div class="container col-1">
-				<div class="container col-1">
-					<label for="site">Site</label>
+		<div class="container row justify-content-start">
+			<div class="container col-4">
+				<div class="form-group row align-items-start">
+					<label for="site">Site :
+					</label>
 					<select name="site" id="site">
 						<option value="1">test1</option>
 						<option value="2">test2</option>
 						<option value="3">test3</option>
 					</select>
 				</div>
-				<div class="container">
+				<div class="form-group row align-items-start">
 					<label for="input_search">Le nom de la sortie contient :
 					</label>
 					<input type="text" id="input_search" name="input_search">
 				</div>
-				<div class="container">
+				<div class="form-group row align-items-start">
 					Entre
 					<input type="date" name="date_debut" id="date_debut">
 					et
 					<input type="date" name="date_fin" id="date_fin">
 				</div>
 			</div>
-			<div class="container col-1">
-				<div class="container row">
-					<input type="checkbox" name="sortie_orga" id="sortie_orga"><label for="sortie_orga">Sorties dont je suis organisateur/trice</label>
+			<div class="container col-6">
+				<div class="form-group row align-items-start">
+					<input type="checkbox" class="col-sm-4" name="sortie_orga" id="sortie_orga"><label class="col-sm-4" for="sortie_orga">Sorties dont je suis organisateur/trice</label>
 				</div>
-				<div class="container row">
+				<div class="form-group row align-items-start">
 					<input type="checkbox" name="sortie_inscrit" id="sortie_inscrit"><label for="sortie_inscrit">Sorties auxquelles je suis inscrit/e</label>
 				</div>
-				<div class="container row">
+				<div class="form-group row align-items-start">
 					<input type="checkbox" name="sortie_non_inscrit" id="sortie_non_inscrit"><label for="sortie_non_inscrit">Sorties auxquelles je ne suis pas inscrit/e</label>
 				</div>
-				<div class="container row">
+				<div class="form-group row align-items-start">
 					<input type="checkbox" name="sortie_passee" id="sortie_passee"><label for="sortie_passee">Sorties passées</label>
 				</div>
 			</div>
+
+
 			<div class="container col-1">
-				<button> Rechercher</button>
+				<button class="btn btn-sortie">Rechercher</button>
+
 			</div>
 		</div>
-		<div class="container">
-			<h1>Affichage tableau</h1>
+		<div class="container text-center">
+			<table>
+				<thead>
+					<tr>
+						<th>Nom de la sortie</th>
+						<th>Date de la sortie</th>
+						<th>Clôture</th>
+						<th>Inscrits/places</th>
+						<th>Etat</th>
+						<th>Inscrit</th>
+						<th>Organisateur</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for inscription in inscriptions %}
+						<tr>
+							<td>{{ inscription[0].sortie.nomSortie}}</td>
+							<td>{{ inscription[0].sortie.dateHeureDebut | date('d/m/Y H:i')}}</td>
+							<td>{{ inscription[0].sortie.dateLimiteInscription | date('d/m/Y H:i')}}</td>
+							<td>
+								{{ inscription[1] - 1}}
+								/
+								{{ inscription[0].sortie.nbInscriptionsMax}}</td>
+							<td>{{ inscription[0].sortie.etat.libelle}}</td>
+							<td>
+								{% if (app.user.id == inscription[0].sortie.organisateur.id) %}
+									X
+								{% endif %}
+							</td>
+							<td>{{ inscription[0].sortie.organisateur.pseudo}}</td>
+							<td>
+								{% if (inscription[0].sortie.etat.libelle == 'Créée') %}
+									{{ inscription[0].sortie.infosSortie}}
+								{% endif %}
+								{% if (date(inscription[0].sortie.dateLimiteInscription) > date())%}
+									{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
+										<a href="#">S'inscrire</a>
+									{% else %}
+										ca aurait pu le faire !
+									{% endif %}
+								{% else %}
+									trop tard !
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
 		<div class="container">
+
 			<a href="{{ path('sorties_create') }}">Créer une sortie</a>
+
+
 		</div>
 	</div>
 {% endblock %}
