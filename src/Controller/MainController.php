@@ -18,7 +18,7 @@ class MainController extends AbstractController
     /**
      * @Route("/main", name="main")
      */
-    public function index(SiteRepository $sr, InscriptionsRepository $ir, ParticpantRepository $pr): Response
+    public function index(Request $request, SiteRepository $sr, InscriptionsRepository $ir, ParticpantRepository $pr): Response
     {
         if (!$this->getUser()) {
             return $this->redirectToRoute('app_login');
@@ -28,6 +28,8 @@ class MainController extends AbstractController
         $participants = $pr->findSortieById($this->getUser()->getId());
         $sites = $sr->findAll();
         //dd($participants);
+        $test = $request->$_GET->;
+        dd($test);
 
         $tab = compact('inscriptions', 'sites', 'participants');
         //$tab = compact('sites');
