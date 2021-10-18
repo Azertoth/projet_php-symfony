@@ -81,10 +81,9 @@
 							<td>{{ inscription[0].sortie.etat.libelle}}</td>
 							<td>
 								{% for sorties in participants %}
-									{% for participant in sorties.inscriptions.sortie.id %}
-										{% if (app.user.id == participant.id) %}
+									{% for participant in sorties.inscriptions %}
+										{% if (inscription[0].sortie.id == participant.sortie.id) %}
 											X
-											
 										{% endif %}
 									{% endfor %}
 								{% endfor %}
