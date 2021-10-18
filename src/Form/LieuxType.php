@@ -16,25 +16,35 @@ class LieuxType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nomLieu',TextType::class,[
-                'label'    => 'Lieu'
+            ->add('nomLieu', TextType::class, [
+                'attr' => ['class' => 'text-muted f-w-400 form-control'],
+                'label' => 'Lieu:'
             ])
-            ->add('rue',TextType::class)
-            ->add('latitude',TextType::class)
-            ->add('longitude',TextType::class)
-            ->add('ville',EntityType::class,[
-                'class'=>Villes::class,
-                'choice_label'=>function($site){
+            ->add('rue', TextType::class, [
+                'attr' => ['class' => 'text-muted f-w-400 form-control'],
+                'label' => 'Rue:'
+            ])
+            ->add('latitude', TextType::class, [
+                'attr' => ['class' => 'text-muted f-w-400 form-control'],
+                'label' => 'Latitude:'
+            ])
+            ->add('longitude', TextType::class, [
+                'attr' => ['class' => 'text-muted f-w-400 form-control'],
+                'label' => 'Longtitude:'
+            ])
+            ->add('ville', EntityType::class, [
+                'class' => Villes::class,
+                'choice_label' => function ($site) {
                     return $site->getNomVille();
-                }])
-
-            ->add('submit',SubmitType::class,[
-                'label' => 'Ajouter',
-                'attr'=>[
-                    'class'=>'btn btn-success w-10'
-                ]
+                }
             ])
-        ;
+
+            ->add('submit', SubmitType::class, [
+                'label' => 'Ajouter',
+                'attr' => [
+                    'class' => 'btn btn-success w-10'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

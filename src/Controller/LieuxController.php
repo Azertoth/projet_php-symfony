@@ -22,7 +22,7 @@ class LieuxController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function add(Request $request, EntityManagerInterface $entityManager): Response
+    public function lieu(Request $request, EntityManagerInterface $entityManager): Response
     {
         $lieu = new Lieux();
         $lieuForm = $this->createForm(LieuxType::class, $lieu);
@@ -33,7 +33,7 @@ class LieuxController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Lieu Créer !');
 
-            $this->redirectToRoute('lieux_create');
+            $this->redirectToRoute('mon_profil');
         }
         return $this->render('lieux/lieu.html.twig', [
             'lieuForm' => $lieuForm->createView(),
