@@ -66,29 +66,35 @@ class Sorties
     private $etat;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Lieux::class)
+     * @ORM\ManyToOne(targetEntity=Lieux::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $lieu;
+    private $lieux;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Site::class)
+     * @ORM\ManyToOne(targetEntity=Site::class, inversedBy="sorties")
      * @ORM\JoinColumn(nullable=false)
      */
     private $site;
 
     /**
-
-     * @ORM\ManyToOne(targetEntity=Particpant::class)
+     * @ORM\ManyToOne(targetEntity=Particpant::class, inversedBy="organisateur")
      * @ORM\JoinColumn(nullable=false)
-
      */
     private $organisateur;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Inscriptions::class, mappedBy="sortie")
+     */
+    private $inscriptions;
+
+    
 
 
 
     public function __construct()
     {
+        $this->inscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -204,14 +210,14 @@ class Sorties
         return $this;
     }
 
-    public function getLieu(): ?Lieux
+    public function getLieux(): ?Lieux
     {
-        return $this->lieu;
+        return $this->lieux;
     }
 
-    public function setLieu(?Lieux $lieu): self
+    public function setLieux(?Lieux $lieux): self
     {
-        $this->lieu = $lieu;
+        $this->lieux = $lieux;
 
         return $this;
     }
@@ -239,4 +245,36 @@ class Sorties
 
         return $this;
     }
+
+    /**
+     * @return Collection|Inscriptions[]
+     */
+    public function getInscriptions(): Collection
+    {
+        return $this->inscriptions;
+    }
+
+    public function addInscription(Inscriptions $inscription): self
+    {
+        if (!$this->inscriptions->contains($inscription)) {
+            $this->inscriptions[] = $inscription;
+            $inscription->setSortie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscription(Inscriptions $inscription): self
+    {
+        if ($this->inscriptions->removeElement($inscription)) {
+            // set the owning side to null (unless already changed)
+            if ($inscription->getSortie() === $this) {
+                $inscription->setSortie(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

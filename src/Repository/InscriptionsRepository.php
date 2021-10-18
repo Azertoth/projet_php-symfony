@@ -31,6 +31,24 @@ class InscriptionsRepository extends ServiceEntityRepository
             ->groupBy('s.id')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @return Inscriptions[] Returns an array of Inscriptions objects
+     */
+
+    public function findAllParticipantswithSortie($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.sortie', 's')
+            ->join('i.participants', 'p')
+            ->addSelect('s')
+            ->addSelect('p')
+            //->groupBy('s.id')
+            ->where('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
         //->getScalarResult();
     }
 
@@ -41,9 +59,28 @@ class InscriptionsRepository extends ServiceEntityRepository
     public function findAllwithParticipant()
     {
         return $this->createQueryBuilder('i')
-            ->join('i.participants_no_participant', 'p')
+            ->join('i.participants', 'p')
             ->addSelect('p')
             ->groupBy('i.sortie')
+            ->getQuery()
+            ->getResult();
+        //->getScalarResult();
+    }
+
+    /**
+     * @return Inscriptions[] Returns an array of Inscriptions objects
+     */
+
+    public function findAllSortieByParticipant($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.sortie', 's')
+            ->join('i.participants', 'p')
+            ->addSelect('s')
+            ->addSelect('p')
+            ->where('p.id = :id')
+            ->groupBy('s.id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
         //->getScalarResult();

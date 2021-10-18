@@ -31,15 +31,17 @@ class UserController extends AbstractController
     /**
      * @Route("/profilParticipant/{id}", name="profil_participant")
      */
-    public function profilPaticipant(ParticpantRepository $participantRepository, $id = 1): Response
+    public function profilPaticipant(int $id, ParticpantRepository $pr): Response
     {
-        $participant = $participantRepository->find($id);
+        $user = $pr->findOneById($id);
+        //dd($user);
 
-        if (!$participant) {
+        if (!$user) {
 
             return $this->render('main/login.html.twig');
         }
-        return $this->render('user/profilParticipant.html.twig');
+        $tab = compact('user');
+        return $this->render('user/profilParticipant.html.twig', $tab);
     }
 
     /**
