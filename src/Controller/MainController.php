@@ -28,8 +28,8 @@ class MainController extends AbstractController
         $participants = $pr->findSortieById($this->getUser()->getId());
         $sites = $sr->findAll();
         //dd($participants);
-        $test = $request->$_GET->;
-        dd($test);
+        //$test = $request->$_GET;
+        //dd($test);
 
         $tab = compact('inscriptions', 'sites', 'participants');
         //$tab = compact('sites');

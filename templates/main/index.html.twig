@@ -14,7 +14,7 @@
 	<div class="container m-10">
 		<h2>Filter les sorties</h2>
 		<form class="container row justify-content-start overflow-hidden gy-5 gx-5" method="post">
-			<div class="container col-6 ">
+			<div class="container col-5 ">
 				<div class="form-group row align-items-start p-3 border bg-light">
 					<label for="site">Site :
 					</label>
@@ -50,54 +50,93 @@
 					<input type="checkbox" name="sortie_passee" id="sortie_passee"><label for="sortie_passee">Sorties passées</label>
 				</div>
 			</div>
-			<div class="container col-2">
-				<input type="submit" class="btn btn-sortie" value="Rechercher" onClick="test">
+			<div class="container col-3">
+				<input type="submit" class="btn btn-sortie" value="Rechercher" onclick="test">
 			</div>
 		</form>
-		<div class="container text-center">
-			<table>
-				<thead>
-					<tr>
-						<th>Nom de la sortie</th>
-						<th>Date de la sortie</th>
-						<th>Clôture</th>
-						<th>Inscrits/places</th>
-						<th>Etat</th>
-						<th>Inscrit</th>
-						<th>Organisateur</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for inscription in inscriptions %}
-						<tr>
-							<td>{{ inscription[0].sortie.nomSortie}}</td>
-							<td>{{ inscription[0].sortie.dateHeureDebut | date('d/m/Y H:i')}}</td>
-							<td>{{ inscription[0].sortie.dateLimiteInscription | date('d/m/Y H:i')}}</td>
-							<td>
+		{# <div class="container text-center">
+													<table>
+														<thead>
+															<tr>
+																<th>Nom de la sortie</th>
+																<th>Date de la sortie</th>
+																<th>Clôture</th>
+																<th>Inscrits/places</th>
+																<th>Etat</th>
+																<th>Inscrit</th>
+																<th>Organisateur</th>
+																<th>Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															{% for inscription in inscriptions %}
+																<tr>
+																	<td>{{ inscription[0].sortie.nomSortie}}</td>
+																	<td>{{ inscription[0].sortie.dateHeureDebut | date('d/m/Y H:i')}}</td>
+																	<td>{{ inscription[0].sortie.dateLimiteInscription | date('d/m/Y H:i')}}</td>
+																	<td>
+																		{{ inscription[1] - 1}}
+																		/
+																		{{ inscription[0].sortie.nbInscriptionsMax}}</td>
+																	<td>{{ inscription[0].sortie.etat.libelle}}</td>
+																	<td>
+																		{% for sorties in participants %}
+																			{% for participant in sorties.inscriptions %}
+																				{% if (inscription[0].sortie.id == participant.sortie.id) %}
+																					X
+																				{% endif %}
+																			{% endfor %}
+																		{% endfor %}
+																	</td>
+																	<td>
+																		<a href="{{ path('profil_participant',{'id':inscription[0].sortie.organisateur.id})}}">{{ inscription[0].sortie.organisateur.pseudo}}</a>
+																	</td>
+																	<td>
+																		{% if (inscription[0].sortie.etat.libelle == 'Créée') %}
+																			{{ inscription[0].sortie.infosSortie}}
+																		{% else %}
+																			{% if (date(inscription[0].sortie.dateLimiteInscription) > date())%}
+																				{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
+																					<a href="{{ path('sorties_voir',{'id':inscription[0].sortie.id} ) }}">S'inscrire</a>
+																				{% else %}
+																					ca aurait pu le faire !
+																				{% endif %}
+																			{% else %}
+																				trop tard !
+																			{% endif %}
+																		{% endif %}
+																	</td>
+																</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div> #}
+		<div class="container px-4">
+			<div class="row gx-5">
+				{% for inscription in inscriptions %}
+					<div class="card cardrangement col-sm-4 col-3 gx-5 gy-5" style="width: 18rem;">
+						<div class="card-body">
+						<div class="text-center">
+							<h5 class="card-title">{{ inscription[0].sortie.nomSortie}}</h5>
+							</div>
+							<h6 class="card-subtitle mb-2 text-muted">{{ inscription[0].sortie.etat.libelle}}</h6>
+							<a href="{{ path('profil_participant',{'id':inscription[0].sortie.organisateur.id})}}" class="card-link">Organisateur :
+								{{ inscription[0].sortie.organisateur.pseudo}}</a>
+							<p class="card-text">Jour et heure :
+								{{ inscription[0].sortie.dateHeureDebut | date('d/m/Y H:i')}}</p>
+							<p class="card-text">Limite d'inscription :
+								{{ inscription[0].sortie.dateLimiteInscription | date('d/m/Y H:i')}}</p>
+							<p class="card-text">Nombre d'inscrits :
 								{{ inscription[1] - 1}}
 								/
-								{{ inscription[0].sortie.nbInscriptionsMax}}</td>
-							<td>{{ inscription[0].sortie.etat.libelle}}</td>
-							<td>
-								{% for sorties in participants %}
-									{% for participant in sorties.inscriptions %}
-										{% if (inscription[0].sortie.id == participant.sortie.id) %}
-											X
-										{% endif %}
-									{% endfor %}
-								{% endfor %}
-							</td>
-							<td>
-								<a href="{{ path('profil_participant',{'id':inscription[0].sortie.organisateur.id})}}">{{ inscription[0].sortie.organisateur.pseudo}}</a>
-							</td>
-							<td>
+								{{ inscription[0].sortie.nbInscriptionsMax}}</p>
+							<p class="card-text">
 								{% if (inscription[0].sortie.etat.libelle == 'Créée') %}
 									{{ inscription[0].sortie.infosSortie}}
 								{% else %}
 									{% if (date(inscription[0].sortie.dateLimiteInscription) > date())%}
 										{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
-											<a href="{{ path('sorties_voir',{'id':inscription[0].sortie.id} ) }}">S'inscrire</a>
+											{{ inscription[0].sortie.infosSortie}}
 										{% else %}
 											ca aurait pu le faire !
 										{% endif %}
@@ -105,19 +144,35 @@
 										trop tard !
 									{% endif %}
 								{% endif %}
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+							</p>
+							<p class="card-text text-center">
+								{% for sorties in participants %}
+									{% set inscrit = false %}
+									{% for participant in sorties.inscriptions %}
+										{% if (inscription[0].sortie.id == participant.sortie.id) %}
+											Déjà inscrit
+											{% set inscrit = true %}
+										{% endif %}
+									{% endfor %}
+									{% if inscrit == false %}
+										{% if (date(inscription[0].sortie.dateLimiteInscription) > date())%}
+											{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
+												<a class="btn btn-success" href="{{ path('sorties_voir',{'id':inscription[0].sortie.id} ) }}">S'inscrire</a>
+											{% endif %}
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+							</p>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
 		</div>
-		<div class="container">
-			<a href="{{ path('sorties_create') }}">Créer une sortie</a>
+		<div class="container text-center">
+			<a class="btn btn-sortie" href="{{ path('sorties_create') }}">Créer une sortie</a>
 		</div>
 	</div>
-	<script>
-		// function test() {
-		// 	console.log(test);
-		// }
-	</script>
-{% endblock %}
+	<script>// function test() {
+// console.log(test);
+// }
+</script>{% endblock %}
