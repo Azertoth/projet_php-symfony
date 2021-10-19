@@ -18,21 +18,22 @@ class LieuxType extends AbstractType
         $builder
             ->add('nomLieu', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
-                'label' => 'Lieu:'
+                'label' => 'Lieu :'
             ])
             ->add('rue', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
-                'label' => 'Rue:'
+                'label' => 'Rue :'
             ])
             ->add('latitude', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
-                'label' => 'Latitude:'
+                'label' => 'Latitude :'
             ])
             ->add('longitude', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
-                'label' => 'Longtitude:'
+                'label' => 'Longtitude :'
             ])
             ->add('ville', EntityType::class, [
+                'attr' => ['class' => 'text-muted f-w-400 form-control'],
                 'class' => Villes::class,
                 'choice_label' => function ($site) {
                     return $site->getNomVille();
@@ -42,7 +43,7 @@ class LieuxType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Ajouter',
                 'attr' => [
-                    'class' => 'btn btn-success w-10'
+                    'class' => 'btn btn-success ml-5 '
                 ]
             ]);
     }
