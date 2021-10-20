@@ -129,7 +129,7 @@
 					<tr>
 						<td colspan="2">
 							{% if (existe == false) %}
-								<a href="#">Se joindre à la sortie</a>
+								<a href="{{ path('inscrire',{'id': sorties.id}) }}">Se joindre à la sortie</a>
 							{% endif %}
 						</td>
 					</tr>

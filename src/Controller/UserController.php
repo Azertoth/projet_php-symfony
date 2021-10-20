@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Inscriptions;
 use App\Form\ProfilType;
+use App\Repository\InscriptionsRepository;
 use App\Repository\ParticpantRepository;
+use App\Repository\SortiesRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,4 +73,38 @@ class UserController extends AbstractController
             'user' => $user
         ]);
     }
+
+    /**
+     * @Route("/inscrire/{id}", name="inscrire")
+     */
+    public function inscrire(EntityManagerInterface $em, SortiesRepository $sr, $id): Response
+    {
+        $date = new \DateTime('now');
+        $sortie = $sr->findOneById($id);
+        $user = $this->getUser();
+        $inscription = new Inscriptions;
+        $inscription->setParticipants($user);
+        $inscription->setSortie($sortie);
+        $inscription->setDateInscription($date);
+
+        $em->persist($inscription);
+        $em->flush();
+        return $this->redirectToRoute('main');
+    }
+
+    /**
+     * @Route("/desinscrire/{id}", name="desinscrire")
+     */
+    public function desinscrire(InscriptionsRepository $ir, EntityManagerInterface $em, SortiesRepository $sr, $id): Response
+    {
+        
+        $sortie = $sr->findOneById($id);
+        $user = $this->getUser();
+        $inscription = $ir->delete($sortie, $user);
+        $em->remove($inscription);
+        $em->flush();
+        
+        return $this->redirectToRoute('main');
+    }
+
 }

@@ -43,7 +43,7 @@ class SortiesRepository extends ServiceEntityRepository
             ->addSelect('l')
             ->join('l.ville', 'v')
             ->addSelect('v')
-            ->andWhere('s.id = :val')
+            ->where('s.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult();
