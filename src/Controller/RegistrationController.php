@@ -15,6 +15,10 @@ class RegistrationController extends AbstractController
 {
     /**
      * @Route("/register", name="app_register")
+     * @param SiteRepository $sr
+     * @param Request $request
+     * @param UserPasswordHasherInterface $userPasswordHasherInterface
+     * @return Response
      */
     public function register(SiteRepository $sr, Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
@@ -22,7 +26,7 @@ class RegistrationController extends AbstractController
         $user = new Particpant();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-        $user->setAdministrateur(true)->setSitesNoSite($site)->setActif(true);
+        $user->setAdministrateur(true)->setSite($site)->setActif(true);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password

@@ -53,15 +53,33 @@ class ParticpantRepository extends ServiceEntityRepository implements PasswordUp
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Particpant
+
+    public function findOneById($value): ?Particpant
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
+            ->join('p.site', 's')
+            ->addSelect('s')
+            ->andWhere('p.id = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
+
+    /**
+     * @return Particpant[] Returns an array of Particpant objects
+     */
+
+    public function findSortieById($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.inscriptions', 'i')
+            ->join('i.sortie', 's')
+            ->addSelect('i')
+            ->addSelect('s')
+            ->Where('p.id = :val')
+            ->setParameter('val', $value)
+            //->groupBy('p.id')
+            ->getQuery()
+            ->getResult();
+    }
 }

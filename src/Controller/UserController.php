@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\ParticpantRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,11 +11,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user", name="user")
+     * @Route("/login", name="login")
      */
     public function index(): Response
     {
-        return $this->render('user/lieu.html.twig', [
+        return $this->render('security/login.html.twig', [
             'controller_name' => 'UserController',
         ]);
     }
@@ -31,18 +33,24 @@ class UserController extends AbstractController
         }
         return $this->render('user/monProfil.html.twig');
     }
+
     /**
-     * @Route("/profilParticipant", name="profil_participant")
+     * @Route("/profilParticipant/{id}", name="profil_participant")
+     * @param int $id
+     * @param ParticpantRepository $pr
+     * @return Response
      */
-    public function profilPaticipant(): Response
+    public function profilPaticipant(int $id, ParticpantRepository $pr): Response
     {
-        $user = $this->getUser();
+        $user = $pr->findOneById($id);
+        //dd($user);
 
         if (!$user) {
 
             return $this->render('main/login.html.twig');
         }
-        return $this->render('user/profilParticipant.html.twig');
+        $tab = compact('user');
+        return $this->render('user/profilParticipant.html.twig', $tab);
     }
 
     /**

@@ -19,22 +19,19 @@ class LieuxRepository extends ServiceEntityRepository
         parent::__construct($registry, Lieux::class);
     }
 
-    // /**
-    //  * @return Lieux[] Returns an array of Lieux objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Lieux[] Returns an array of Lieux objects
+     */
+
+    public function findAllWithVilles()
     {
         return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
+            ->join('l.ville', 'v')
+            ->addSelect('v')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Lieux

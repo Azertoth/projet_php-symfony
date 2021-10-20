@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\LieuxRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,11 +40,22 @@ class Lieux
     private $longitude;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Villes::class)
+     * @ORM\ManyToOne(targetEntity=Villes::class, inversedBy="lieux")
      * @ORM\JoinColumn(nullable=false)
      */
     private $ville;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Sorties::class, mappedBy="lieux")
+     */
+    private $sorties;
+
+    public function __construct()
+    {
+        $this->sorties = new ArrayCollection();
+    }
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -107,4 +120,35 @@ class Lieux
 
         return $this;
     }
+
+    /**
+     * @return Collection|Sorties[]
+     */
+    public function getSorties(): Collection
+    {
+        return $this->sorties;
+    }
+
+    public function addSorty(Sorties $sorty): self
+    {
+        if (!$this->sorties->contains($sorty)) {
+            $this->sorties[] = $sorty;
+            $sorty->setLieux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSorty(Sorties $sorty): self
+    {
+        if ($this->sorties->removeElement($sorty)) {
+            // set the owning side to null (unless already changed)
+            if ($sorty->getLieux() === $this) {
+                $sorty->setLieux(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

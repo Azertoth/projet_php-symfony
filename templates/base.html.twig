@@ -4,37 +4,44 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		{% block head %}
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
-			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css">
-			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+			{# <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> #}
+			{# <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
+												<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css">
+												<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> #}
 			<link
-			rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
-
-			<!--===============================================================================================-->
-			<link
-			rel="stylesheet" type="text/css" href="{{ asset('css/profil.css')}}">
+			rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> 
+			<link rel="stylesheet" type="text/css" href="{{ asset('css/profil.css')}}">
 			<!-- Font Icon -->
-			<link
-			rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
-
-			<!-- profilParticipant css -->
-			<link
-			rel="stylesheet" href="{{asset('css/profilParticipant.css')}}">
-			<!-- JS profilParticipant-->
-			<script src="vendor/jquery/jquery.min.js"></script>
+			{# <link</script
+										 rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">  <!-- profilParticipant css --> 
+										 <link rel="stylesheet" href="{{asset('css/profilParticipant.css')}}"> 
+										 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">>
+										<!-- JS profilParticipant--> #}
 			<script src="js/main.js"></script>
-			{% endblock %}
-        <title>
+		{% endblock %}
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		{% block javascripts %}
+			{#{{ encore_entry_script_tags('app') }}#}
+		{% endblock %}
+		<title>
 			{% block title %}Sortir.Com
 			{% endblock %}
 		</title>
 	</head>
 	<body>
 		{% include "inc/nav.html.twig" %}
+		<div class="container">
+			{% for label, messages in app.flashes %}
+				{%  for message in messages %}
+					<div class="alert-{{ label }}">
+						{{ message }}
+					</div>
+				{% endfor %}
+			{% endfor %}
+		</div>
 		{% block main %}{% endblock %}
-        {% include 'inc/footer.html.twig'%}
-	</body>
+		{% include 'inc/footer.html.twig'%}</body>
 </html>
