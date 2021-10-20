@@ -1,9 +1,7 @@
 {% extends 'base.html.twig' %}
-
 {% block head %}
 	<link rel="stylesheet" href="{{asset('css/main.css')}}">
 {% endblock %}
-
 {% block main%}
 	<div class="container text-right">
 		<div>Date du jour :
@@ -31,10 +29,8 @@
 				<div class="col p-5">
 					{{ form_row(formView.sortie_check)}}
 				</div>
-
-				<div class="container col-2">
-					<input type="submit" class="btn btn-sortie" value="Rechercher">
-
+				<div class="col m-5">
+					<input type="submit" class="btn btn-sortie" value="Rechercher" onclick="test(this);">
 				</div>
 			</div>
 			{{ form_end(formView) }}
@@ -46,6 +42,9 @@
 						<div class="card-body">
 							<div class="text-center">
 								<h5 class="card-title">{{ inscription[0].sortie.nomSortie}}</h5>
+								{% if app.user.id == inscription[0].sortie.organisateur.id %}
+									<a class="btn" href="{{ path('sorties_modifier',{'id':inscription[0].sortie.id} ) }}">Modifier</a>
+								{% endif %}
 							</div>
 							<h6 class="card-subtitle mb-2 text-muted">{{ inscription[0].sortie.etat.libelle}}</h6>
 							<a href="{{ path('profil_participant',{'id':inscription[0].sortie.organisateur.id})}}" class="card-link">Organisateur :
@@ -90,15 +89,12 @@
 											{% endif %}
 										{% endif %}
 									{% endif %}
-									<<<<<<<HEAD</p></div></div>=======</td></tr></tbody></table></div><divclass="container"><ahref="{{path('sorties_create')}}">Créerunesortie</a>>>
 								{% endfor %}
-							{% endfor %}
-						{% endfor %}>>>>> a34c1228f22a67135b7436a2e1b9684316734c98</div>
-				</p>
-			</div>
-			<div class="container text-center">
-				<a class="btn btn-sortie" href="{{ path('sorties_create') }}">Créer une sortie</a>
+							</p>
+						</div>
+					</div>
+				{% endfor %}
 			</div>
 		</div>
-		<script></script>
 	{% endblock %}
+	{% block javascripts %}{% endblock %}
