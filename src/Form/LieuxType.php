@@ -33,7 +33,10 @@ class LieuxType extends AbstractType
                 'label' => 'Longtitude :'
             ])
             ->add('ville', EntityType::class, [
-                'attr' => ['class' => 'text-muted f-w-400 form-control'],
+                'attr' => [
+                    'class' => 'text-muted f-w-400 form-control',
+                    'id' => 'ville'
+                ],
                 'class' => Villes::class,
                 'choice_label' => function ($site) {
                     return $site->getNomVille();
@@ -43,7 +46,7 @@ class LieuxType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Ajouter',
                 'attr' => [
-                    'class' => 'btn btn-success ml-5 '
+                    'class' => 'btn btn-success'
                 ]
             ]);
     }

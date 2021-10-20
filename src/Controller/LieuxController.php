@@ -66,7 +66,7 @@ class LieuxController extends AbstractController
         ]);
     }
     /**
-     * @Route("/create-ville", name="create-ville")
+     * @Route("/create_ville", name="create_ville")
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @return Response
