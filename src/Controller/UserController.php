@@ -31,8 +31,12 @@ class UserController extends AbstractController
         }
         return $this->render('user/monProfil.html.twig');
     }
+
     /**
      * @Route("/profilParticipant/{id}", name="profil_participant")
+     * @param int $id
+     * @param ParticpantRepository $pr
+     * @return Response
      */
     public function profilPaticipant(int $id, ParticpantRepository $pr): Response
     {
