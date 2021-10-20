@@ -120,20 +120,29 @@ class SortiesController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return RedirectResponse|Response
      */
-    public function modifier(Sorties $sortie, Request $request, EntityManagerInterface $entityManager)
+    public function modifier(SortiesRepository $sr, Request $request, EntityManagerInterface $entityManager, EtatsRepository $er, $id)
     {
+        $sortie = $sr->findOneById($id);
+        //dd($sortie);
         $sortieForm = $this->createForm(SortirType::class, $sortie);
         $sortieForm->handleRequest($request);
+        //dd($sortieForm);
+        $etat = $er->findAll();
+        
 
         if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             $sortie = $sortieForm->getData();
 
             if ($sortieForm->get('save')->isClicked()) {
                 $sortie->setEtatSortir("En création");
+                $sortie->setEtat($etat[0]);
             } elseif ($sortieForm->get('publish')->isClicked()) {
                 $sortie->setEtatSortir("Ouvert");
+                $sortie->setEtat($etat[1]);
             } else {
-                return $this->redirectToRoute('main');
+                $sortie->setEtatSortir("Annulée");
+                $sortie->setEtat($etat[5]);
+                $sortie->setDescription("Sortie annulée, contactez le SAV pour plus d'information !");
             }
 
             $entityManager->flush();

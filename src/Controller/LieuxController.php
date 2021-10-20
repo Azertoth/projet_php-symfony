@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Lieux;
 use App\Entity\Site;
+use App\Entity\Villes;
 use App\Form\LieuxType;
+use App\Form\VilleType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +24,7 @@ class LieuxController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function add(Request $request, EntityManagerInterface $entityManager): Response
+    public function lieu(Request $request, EntityManagerInterface $entityManager): Response
     {
         $lieu = new Lieux();
         $lieuForm = $this->createForm(LieuxType::class, $lieu);
@@ -33,7 +35,7 @@ class LieuxController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'Lieu Créer !');
 
-            $this->redirectToRoute('lieux_create');
+            return $this->redirectToRoute('main');
         }
         return $this->render('lieux/lieu.html.twig', [
             'lieuForm' => $lieuForm->createView(),
@@ -61,6 +63,29 @@ class LieuxController extends AbstractController
         }
         return $this->render('lieux/lieu.html.twig', [
             'lieuForm' => $lieuForm->createView(),
+        ]);
+    }
+    /**
+     * @Route("/create-ville", name="create-ville")
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
+    public function CreateVille(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $ville = new Villes();
+        $villeForm = $this->createForm(VilleType::class, $ville);
+        $villeForm->handleRequest($request);
+        if ($villeForm->isSubmitted() && $villeForm->isValid()) {
+
+            $entityManager->persist($ville);
+            $entityManager->flush();
+            $this->addFlash('success', 'Ville Créée!');
+
+            return $this->redirectToRoute('main');
+        }
+        return $this->render('lieux/createVille.html.twig', [
+            'villeForm' => $villeForm->createView(),
         ]);
     }
 }
