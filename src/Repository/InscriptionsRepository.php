@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Inscriptions;
+use DateInterval;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,9 +26,12 @@ class InscriptionsRepository extends ServiceEntityRepository
 
     public function findAllwithSortie()
     {
+        $now = DATE_ADD(new \DateTime('now'), new DateInterval('P1M'));
         return $this->createQueryBuilder('i')
             ->join('i.sortie', 's')
             ->addSelect('COUNT(s)')
+            ->where('s.dateHeureDebut < :now')
+            ->setParameter('now', $now)
             ->groupBy('s.id')
             ->getQuery()
             ->getResult();
@@ -87,15 +91,18 @@ class InscriptionsRepository extends ServiceEntityRepository
     }
 
 
-    /*
-    public function findOneBySomeField($value): ?Inscriptions
+    
+    public function delete($value, $id)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
+            ->select('i')
+            ->where('i.participants = :id')
+            ->setParameter('id',$id)
+            ->andWhere('i.sortie = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+    
 }

@@ -20,42 +20,27 @@ class ProfilType extends AbstractType
             ->add('pseudo', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
                 'label' => 'Pseudo:',
-
+                'required' => false,
 
             ])
             //->add('roles')
             ->add('password', RepeatedType::class, [
 
-
-
                 'type' => PasswordType::class, 'mapped' => false,
-
                 'attr' => ['autocomplete' => 'new-password'],
-
                 'constraints' => [
-
                     new NotBlank([
-
-                        'message' => 'Please enter a password',
-
+                        'message' => 'Merci d\'entrter un mot de passe',
                     ]),
-
                     new Length([
-
                         'min' => 6,
-
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-
+                        'minMessage' => 'Le mot de passe doit contenir au minimum {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
-
                         'max' => 4096,
-
                     ]),
-
                 ],
-
-                'invalid_message' => "mot de pass invalid",
-
+                'invalid_message' => "mot de passe est invalide",
+                'required' => false,
                 //'option' => ['attr' => ['class' => 'password-field']],
 
                 //'require' => true,
@@ -67,19 +52,23 @@ class ProfilType extends AbstractType
             ])
             ->add('nom', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
-                'label' => 'Nom:'
+                'label' => 'Nom:',
+                'required' => false,
             ])
             ->add('prenom', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
-                'label' => 'Prénom:'
+                'label' => 'Prénom:',
+                'required' => false,
             ])
             ->add('telephone', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
-                'label' => 'Téléphone:'
+                'label' => 'Téléphone:',
+                'required' => false,
             ])
             ->add('mail', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
-                'label' => 'Email:'
+                'label' => 'Email:',
+                'required' => false,
             ])
             //->add('administrateur')
             //->add('actif')

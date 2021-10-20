@@ -2,74 +2,79 @@
 
 {% block main%}
 
-<h1 class="text-center display-4 lead">Modifier</h1>
+	<h1 class="text-center display-4 lead">Modifier</h1>
+
+	<div class="container">
+		{{ form_start(form) }}
+		{{ form_errors(form) }}
+		<div class="row">
+			<div class="col-5">
+				{{ form_row(form.nomSortie) }}
+				<div>
+					{{form_label(form.dateHeureDebut)}}
+					<input type="datetime-local" class="form-control" value="{{ sortie.dateHeureDebut | date("Y-m-d") }}T{{ sortie.dateHeureDebut | date("h:m") }}" name="dateHeureDebut">
+				</div>
+				<div>
+					{{form_label(form.dateLimiteInscription)}}
+					<input type="datetime-local" class="form-control" value="{{ sortie.dateLimiteInscription | date("Y-m-d") }}T{{ sortie.dateLimiteInscription | date("h:m") }}" name="dateLimiteInscription">
+				</div>
+
+				{{ form_row(form.nbInscriptionsMax) }}
+				{{ form_row(form.duree) }}
+				{{ form_row(form.infosSortie) }}
+
+			</div>
 
 
-    <div class="container">
-        {{ form_start(form) }}
-        {{ form_errors(form) }}
-
-        <div class="row">
-            <div class="col-5">
-                {{ form_row(form.nomSortie) }}
-                {{ form_row(form.dateHeureDebut) }}
-                {{ form_row(form.dateLimiteInscription) }}
-                {{ form_row(form.nbInscriptionsMax) }}
-                {{ form_row(form.duree) }}
-                {{ form_row(form.infosSortie) }}
-
-            </div>
+			<div class="col-5">
+				{{ form_row(form.site) }}
+				{{ form_row(form.lieux) }}
 
 
+				<div class="form-row">
+					<div class>
+						<label for="input">Rue:</label>
+						<input type="text" readonly class="form-control" id="latitude" placeholder="{{ sortie.lieux.rue}}">
+					</div>
+					<div class>
+						<label for="input">Code Postal:</label>
+						<input type="text" readonly class="form-control" id="latitude" placeholder="{{ sortie.lieux.ville.codePostal}}">
+					</div>
+					<div class>
+						<label for="input">Latitude:</label>
+						<input type="text" readonly class="form-control" id="latitude" placeholder="{{ sortie.lieux.latitude}}">
+					</div>
+					<div class>
+						<label for="input">Longitude:</label>
+						<input type="text" readonly class="form-control" id="longitude" placeholder="{{sortie.lieux.longitude}}">
+					</div>
+				</div>
 
-            <div class="col-5">
-                {{ form_row(form.lieu) }}
-                {{ form_row(form.site) }}
+			</div>
+		</div>
 
+		<br>
 
-                <div class="form-row">
-                    <div class>
-                        <label for="input">Rue:</label>
-                    </div>
-                    <div class>
-                        <label for="input">Code Postal:</label>
+		<div class="container">
+			<div class="row">
+				<div class="col-4">
+					{{ form_row(form.save) }}
+				</div>
+				<div class="col-4">
+					{{ form_row(form.publish) }}
+				</div>
+				<div class="col-4">
+					{{ form_row(form.cancel) }}
+				</div>
+			</div>
+		</div>
 
-                    </div>
-                    <div class>
-                        <label for="input">Latitude:</label>
-                        <input type="text" class="form-control" id="inputPassword4" >
-                    </div>
-                    <div class>
-                        <label for="input">Longitude:</label>
-                        <input type="text" class="form-control" id="inputPassword4" >
-                    </div>
-                </div>
+		<a class="btn btn-primary" href="{{ path('main') }}">Retour au menu</a>
 
-            </div>
-        </div>
-
-        <br>
-
-        <div class="container">
-            <div class="row">
-                <div class="col-4">
-                    {{ form_row(form.save) }}
-                </div>
-                <div class="col-4">
-                    {{ form_row(form.publish) }}
-                </div>
-                <div class="col-4">
-                    {{ form_row(form.cancel) }}
-                </div>
-            </div>
-        </div>
-
+		{{ form_end(form, {'render_rest': false}) }}
 
 
-        {{ form_end(form) }}
-
-
-    </div>
+	</div>
 
 
 {% endblock %}

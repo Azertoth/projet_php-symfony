@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-
->>>>>>> 3b66985dae850e6cf687bdac8f330563fafdb162
 * {
   margin: 0px;
   padding: 0px;
@@ -13,11 +9,22 @@ body,
 html {
   height: 100vh;
   font-family: SourceSansPro-Regular, sans-serif;
-  overflow: hidden;
+  overflow-y: scroll;
   background: linear-gradient(RGBA(120, 16, 92, 0.23), RGBA(255, 101, 80, 1));
 }
 main {
-  min-height: 80vh;
+  min-height: 90vh;
+}
+#rangement {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  width: 80%;
+}
+.cardrangement {
+  box-shadow: 0 1px 6px rgba(51, 51, 51, 0.192);
+  min-height: 260px;
+  overflow: hidden;
 }
 table {
   border: 1px solid #333;
