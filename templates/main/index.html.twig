@@ -1,20 +1,13 @@
 {% extends 'base.html.twig' %}
-
 {% block head %}
 	<link rel="stylesheet" href="{{asset('css/main.css')}}">
 {% endblock %}
-
 {% block main%}
 	<div class="container text-right">
 		<div>Date du jour :
-			{{ "now"|date('d/m/Y') }}
-		</div>
-		<div>
-			<img src="{{ asset('images/photo_profil/' ~ app.user.photo) }}">
-			<div>
-				{{ app.user.pseudo }}
-			</div>
-		</div>
+			{{ "now"|date('d/m/Y') }}</div>
+		<div>Participant :
+			{{ app.user.pseudo }}</div>
 		<div class="clock">
 			<div class="hour">
 				<div class="hr" id="hr"></div>
@@ -27,61 +20,75 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="container m-10">
 		<h2>Filter les sorties</h2>
+
 		<div class="container">
-			{{ form_start(formView) }}
+			{{ form_start(formSearch, {attr: {class: 'filter'}}) }}
 			<div class="row">
 				<div class="col">
 					<div class="m-1 p-2">
-						{{ form_row(formView.site)}}
+						{{ form_row(formSearch.site) }}
 					</div>
 					<div class="m-1 p-2">
-						{{ form_row(formView.nomSortie)}}
+						{{ form_row(formSearch.q) }}
 					</div>
 					<div class="m-1 p-2">
-						{{ form_row(formView.dateDebut)}}
-						{{ form_row(formView.dateFin)}}
+						{{  form_row(formSearch.dateDebut)}}
+						{{  form_row(formSearch.dateFin)}}
 					</div>
 				</div>
 				<div class="col p-5">
-					{{ form_row(formView.sortie_check)}}
+
+					{{ form_row(formSearch.organiser) }}
+					{{  form_row(formSearch.inscrit)}}
+					{{  form_row(formSearch.pasInscrit)}}
+					{{  form_row(formSearch.passee)}}
 				</div>
 				<div class="col m-5">
-					<input type="submit" class="btn btn-sortie" value="Rechercher" onclick="test(this);">
+					<input type="submit" class="btn btn-sortie" value="Rechercher">
 				</div>
 			</div>
-			{{ form_end(formView) }}
+			{{ form_end(formSearch) }}
 		</div>
+
+
 		<div class="container px-4">
-			<div class="row gx-5">
-				{% for inscription in inscriptions %}
-					<div class="card cardrangement col-sm-4 col-3 gx-5 gy-5" style="width: 18rem;">
+			{% for inscription in inscriptions %}
+				<div class="row gx-5">
+					<div class="card cardrangement col-sm-4 col-3 mx-5 my-5" style="width: 18rem;">
 						<div class="card-body">
 							<div class="text-center">
-								<h5 class="card-title">{{ inscription[0].sortie.nomSortie}}</h5>
-								{% if app.user.id == inscription[0].sortie.organisateur.id %}
-									<a class="btn" href="{{ path('sorties_modifier',{'id':inscription[0].sortie.id} ) }}">Modifier</a>
-								{% endif %}
+								<h5 class="card-title">{{inscription.nomSortie}}</h5>
+								{#								{% if app.user.id == sortie.organisateur.id %}#}
+							{#									<a class="btn" href="{{ path('sorties_modifier',{'id':inscription[0].sortie.id} ) }}">Modifier</a>#}
+								{#								{% endif %}#}
 							</div>
-							<h6 class="card-subtitle mb-2 text-muted">{{ inscription[0].sortie.etat.libelle}}</h6>
-							<a href="{{ path('profil_participant',{'id':inscription[0].sortie.organisateur.id})}}" class="card-link">Organisateur :
-								{{ inscription[0].sortie.organisateur.pseudo}}</a>
+							<h6 class="card-subtitle mb-2 text-muted">
+								{{inscription.etat.libelle}}
+							</h6>
+							<a href="#{# {{ path('profil_participant',{'id':sortie.organisateur.id})}} #}" class="card-link">Organisateur :
+								{{ inscription.organisateur.pseudo}}
+							</a>
 							<p class="card-text">Jour et heure :
-								{{ inscription[0].sortie.dateHeureDebut | date('d/m/Y H:i')}}</p>
+								{{ inscription.dateHeureDebut | date('d/m/Y H:i')}}
+							</p>
 							<p class="card-text">Limite d'inscription :
-								{{ inscription[0].sortie.dateLimiteInscription | date('d/m/Y H:i')}}</p>
+								{{ inscription.dateLimiteInscription | date('d/m/Y')}}
+							</p>
 							<p class="card-text">Nombre d'inscrits :
-								{{ inscription[1] - 1}}
-								/
-								{{ inscription[0].sortie.nbInscriptionsMax}}</p>
+							{#							{{ inscript[1]-1}}#}
+								{#							/#}
+								{#							{{ inscription.sortie.nbInscriptionsMax}}#}
+							</p>
 							<p class="card-text">
-								{% if (inscription[0].sortie.etat.libelle == 'Créée') %}
-									{{ inscription[0].sortie.infosSortie}}
+								{% if (inscription.etat.libelle == 'Créée') %}
+									{{ inscription.infosSortie}}
 								{% else %}
-									{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
-										{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
-											{{ inscription[0].sortie.infosSortie}}
+									{% if (date(inscription.dateLimiteInscription) < date('now'))%}
+										{% if (inscription.etat.libelle == 'Ouverte') %}
+											{{ inscription.infosSortie}}
 										{% else %}
 											ca aurait pu le faire !
 										{% endif %}
@@ -91,46 +98,49 @@
 								{% endif %}
 							</p>
 							<p class="card-text text-center">
+
 								{% for sorties in participants %}
 									{% set inscrit = false %}
-									{% for participant in sorties.inscriptions %}
-										{% if (inscription[0].sortie.id == participant.sortie.id) %}
-											Déjà inscrit :
-											<a class="btn btn-alert" href="{{ path('desinscrire',{'id':inscription[0].sortie.id} ) }}">Se désister</a>
-											{% set inscrit = true %}
-										{% endif %}
-									{% endfor %}
-									{% if inscrit == false %}
-										{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
-											{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
-												<a class="btn btn-success" href="{{ path('sorties_voir',{'id':inscription[0].sortie.id} ) }}">S'inscrire</a>
+									{% for sorties in participants %}
+										{% set inscrit = false %}
+										{% for participant in sorties.inscriptions %}
+											{% if (inscription.id == participant.id) %}
+												{% set inscrit = true %}
+											{% endif %}
+										{% endfor %}
+										{% if inscrit == false %}
+											{% if (date(inscription.dateLimiteInscription) < date('now'))%}
+												{% if (inscription.etat.libelle == 'Ouverte') %}
+												
+												{% endif %}
 											{% endif %}
 										{% endif %}
-									{% endif %}
-								{% endfor %}
+									{% endfor %}
+									<div class="mt-4 offset-md-4">
+										{# {{ knp_pagination_render(inscription, ) }} #}
+									</div>
+								{% endfor %}	
 							</p>
 						</div>
 					</div>
-				{% endfor %}
-			</div>
+				</div>
+			{% endfor %}
 		</div>
-		<script type="text/javascript">
+	<div>		
+	<script type="text/javascript">
 			const deg = 6;
 			const hr = document.querySelector('hr');
 			const mn = document.querySelector('mn');
 			const sc = document.querySelector('sc');
-
-			let day = new Date();
+			let day = newDate();
 			let hh = day.getHours() * 30;
 			let mn = day.getMinutes() * deg;
 			let sc = day.getSeconds() * deg;
-
-			hr.style.transform = `rotateZ(${
-			(hh) + (mm / 12)
-			}deg)`;
+			hr.style.transform = `rotateZ(${(hh) + (mm / 12)}deg)`;
 			mn.style.transform = `rotateZ(${mn}deg)`;
 			sc.style.transform = `rotateZ(${sc}deg)`;
-		</script>
-	{% endblock %}
-
-	{% block javascripts %}{% endblock %}
+	</script>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}
+						

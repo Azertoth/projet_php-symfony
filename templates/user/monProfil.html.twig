@@ -1,4 +1,7 @@
 {% extends 'base.html.twig' %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/profil.css')}}">
+{% endblock %}
 {% block main%}
 	<div
 		class="container mt-5 d-flex justify-content-center">
@@ -57,8 +60,5 @@
 			</div>
 		</div>
 	</div>
-
-	{# </div> #}
-
 
 {% endblock %}

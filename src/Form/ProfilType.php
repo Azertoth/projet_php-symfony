@@ -44,9 +44,13 @@ class ProfilType extends AbstractType
                 'invalid_message' => "mot de passe est invalide",
                 'required' => false,
                 //'option' => ['attr' => ['class' => 'password-field']],
+
                 //'require' => true,
+
                 'first_options' => ['label' => 'mot de passe:', 'attr' => ['class' => 'text-muted f-w-400 form-control'],],
+
                 'second_options' => ['label' => 'Comfirmation:', 'attr' => ['class' => 'text-muted f-w-400 form-control'],],
+
             ])
             ->add('nom', TextType::class, [
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],

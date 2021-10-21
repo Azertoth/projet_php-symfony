@@ -1,76 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>Choisir un lieu</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-		<link
-		rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
-		<!-- Font Icon -->
-		<link
-		rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+{% extends 'base.html.twig' %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/profil.css')}}">
+{% endblock %}
+{% block main%}
 
-		<!-- profilParticipant css -->
-		<link rel="stylesheet" href="{{asset('css/profilParticipants.css')}}">
-	</head>
-	<body>
-		{% include "inc/nav.html.twig" %}
+	<!-- Lieux form -->
+	<div class="" style="">
+		<section class="lieux mt-5  d-flex justify-content-center">
+			<div class="container ">
+				<div class="row " style="background-color:#f4a261">
+					<div class="lieux-content col-6 d-flex justify-content-center mt-3 mb-3">
+						<div class="form">
+							<h1 class="form-title text-nowrap">Choisir un lieu</h1>
+							{{ form_start(lieuForm) }}
+							{{ form_errors(lieuForm) }}
 
 
-		<!-- Lieux form -->
-		<div class="" style="">
-			<section class="lieux mt-5  d-flex justify-content-center">
-				<div class="container ">
-					<div class="row " style="background-color:#f4a261">
-						<div class="lieux-content col-6 d-flex justify-content-center mt-3 mb-3">
-							<div class="form">
-								<h1 class="form-title text-nowrap">Choisir un lieu</h1>
-								{{ form_start(lieuForm) }}
-								{{ form_errors(lieuForm) }}
-
-
-								<div class="form-group ">
-									{{ form_row(lieuForm.nomLieu) }}
-									{{ form_row(lieuForm.rue) }}
-									{{ form_row(lieuForm.latitude) }}
-									{{ form_row(lieuForm.longitude) }}
-									{{ form_row(lieuForm.ville) }}
-								</div>
-
-								{# <div class="form-group">
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												<label for="telephone">
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													<i class="zmdi zmdi-phone"></i>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												</label>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												<input type="text" name="telephone" id="telephone" placeholder="Téléphone:    {{app.user.telephone}}"/>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											</div>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											<div class="form-group">
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												<label for="email">
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													<i class="zmdi zmdi-email"></i>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												</label>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												<input type="text" name="email" id="email" placeholder="Email:   {{app.user.mail}}"/>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											</div>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											<div class="form-group">
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												<label for="ville">
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																													<i class="zmdi zmdi-pin"></i>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												</label>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																												<input type="text" name="ville" id="ville" placeholder="Ville de rattachement:   {{app.user.prenom}}"/>
-																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																											</div> #}
-
-								{{ form_end(lieuForm) }}
-								{# </form> #}
+							<div class="form-group ">
+								{{ form_row(lieuForm.nomLieu) }}
+								{{ form_row(lieuForm.rue) }}
+								{{ form_row(lieuForm.latitude) }}
+								{{ form_row(lieuForm.longitude) }}
+								{{ form_row(lieuForm.ville) }}
+								<a class="btn btn-info  mt-3" href="{{ path('lieux_create_ville') }}">Ajouter une ville</a>
 							</div>
+
+							{{ form_end(lieuForm) }}
+							{# </form> #}
 						</div>
-						<div class="lieu-image col-6 mt-5">
-							<div>
-								<figure><img src="{{asset('/images/france1.png')}}" alt="france" style="max-width: 350px;"></figure>
-							</div>
+					</div>
+					<div class="lieu-image col-6 mt-5">
+						<div>
+							<figure><img src="{{asset('/images/france1.png')}}" alt="france" style="max-width: 350px;"></figure>
 						</div>
 					</div>
 				</div>
-			</section>
-			<div></body>
-		</html>
-	</body>
-</html>
+			</div>
+		</section>
+		<div>
+		{% endblock %}

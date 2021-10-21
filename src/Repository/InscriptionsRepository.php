@@ -56,11 +56,20 @@ class InscriptionsRepository extends ServiceEntityRepository
         //->getScalarResult();
     }
 
+    //
+    //     /**
+    //      * @return Inscriptions[] Returns an array of Inscriptions objects
+    //      */
+    //
+    //
+    //    public function findAllwithSortie()
+
     /**
      * @return Inscriptions[] Returns an array of Inscriptions objects
      */
 
     public function findAllwithParticipant()
+
     {
         return $this->createQueryBuilder('i')
             ->join('i.participants', 'p')
@@ -70,6 +79,22 @@ class InscriptionsRepository extends ServiceEntityRepository
             ->getResult();
         //->getScalarResult();
     }
+
+
+    //    /**
+    //     * @return Inscriptions[] Returns an array of Inscriptions objects
+    //     */
+    //
+    //    public function findAllwithParticipant()
+    //    {
+    //        return $this->createQueryBuilder('i')
+    //            ->join('i.participants_no_participant', 'p')
+    //            ->addSelect('p')
+    //            ->groupBy('i.sortie')
+    //            ->getQuery()
+    //            ->getResult();
+    //        //->getScalarResult();
+    //    }
 
     /**
      * @return Inscriptions[] Returns an array of Inscriptions objects
@@ -91,18 +116,16 @@ class InscriptionsRepository extends ServiceEntityRepository
     }
 
 
-    
+
     public function delete($value, $id)
     {
         return $this->createQueryBuilder('i')
             ->select('i')
             ->where('i.participants = :id')
-            ->setParameter('id',$id)
+            ->setParameter('id', $id)
             ->andWhere('i.sortie = :val')
             ->setParameter('val', $value)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    
 }
