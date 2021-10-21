@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block main%}
+    <ul>
+        {% for p in ps %}
+            <li>
+                {{ p.nom }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="navigation">
+        {{ knp_pagination_render(ps) }}
+    </div>
+{% endblock %}

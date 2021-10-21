@@ -47,6 +47,10 @@ class RegistrationFormType extends AbstractType
             ->add('prenom')
             ->add('telephone')
             ->add('mail')
+            ->add('admin', CheckboxType::class, [
+                'mapped' => false,
+                'label'=> 'admin ?'
+            ])
         ;
     }
 
