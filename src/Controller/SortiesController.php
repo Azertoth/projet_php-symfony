@@ -130,7 +130,7 @@ class SortiesController extends AbstractController
         $etat = $er->findAll();
         
 
-        if ($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+        if ($sortieForm->isSubmitted()) {
             $sortie = $sortieForm->getData();
 
             if ($sortieForm->get('save')->isClicked()) {
