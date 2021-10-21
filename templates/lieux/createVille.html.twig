@@ -1,39 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>Gérer les Villes</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-		<link
-		rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
-		<!-- Font Icon -->
-		<link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+{% extends 'base.html.twig' %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/profil.css')}}">
+{% endblock %}
+{% block main%}
+
+	<h1 class="text-center mt-5 mb-5">Gérer les villes</h1>
+	<div class="container d-flex justify-content-center">
+
+		<div class="row">
 
 
-	</head>
-	<body>
-		{% include "inc/nav.html.twig" %}
-
-		<h1 class="text-center mt-5 mb-5">Gérer les villes</h1>
-		<div class="container d-flex justify-content-center">
-
-			<div class="row">
-
-
-				<div class="col">
-					<h4 class="d-block mb-3">Filtrer les villes</h4>
-					<div class="d-flex justify-content-around align-items-center">
-						<label for="nomVille" class="text-nowrap ">Le nom contient :</label>
-						<input type="text" class="form-control ml-3" id="nomVille" placeholder="">
-						<button type="button" class="btn btn-info ml-3">search</button>
-					</div>
+			<div class="col">
+				<h4 class="d-block mb-3">Filtrer les villes</h4>
+				<div class="d-flex justify-content-around align-items-center">
+					<label for="nomVille" class="text-nowrap ">Le nom contient :</label>
+					<input type="text" class="form-control ml-3" id="nomVille" placeholder="">
+					<button type="button" class="btn btn-info ml-3">search</button>
 				</div>
-
 			</div>
-			<div class="row"></div>
 
 		</div>
-	</body>
-</html>
+		<div class="row"></div>
+	{% endblock %}

@@ -1,78 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<title>profil Participant</title>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-		<link
-		rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
-		<!-- Font Icon -->
-		<link
-		rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+{% extends 'base.html.twig' %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/profilParticipant.css')}}">
+{% endblock %}
+{% block main%}
 
-		<!-- profilParticipant css -->
-		<link rel="stylesheet" href="{{asset('css/profilParticipant.css')}}">
-	</head>
-	<body>
-		{% include "inc/nav.html.twig" %}
-
-
-		<!-- Sign up form -->
-		<section class="signup mt-5">
-			<div class="container">
-				<div class="signup-content">
-					<div class="signup-form">
-						<h2 class="form-title text-nowrap">profil de
-							{{user.pseudo}}</h2>
-						<div class="register-form" id="register-form">
-							<div class="form-group">
-								<label for="prenom">
-									<i class="zmdi zmdi-face"></i>
-								</label>
-								<input type="text" name="prenom" id="prenom" placeholder="Prénom:   {{user.prenom}}"/>
-							</div>
-							<div class="form-group">
-								<label for="nom">
-									<i class="zmdi zmdi-account material-icons-name"></i>
-								</label>
-								<input type="text" name="nom" id="nom" placeholder="Nom:   {{user.nom}}"/>
-							</div>
-							<div class="form-group">
-								<label for="telephone">
-									<i class="zmdi zmdi-phone"></i>
-								</label>
-								<input type="text" name="telephone" id="telephone" placeholder="Téléphone:    {{user.telephone}}"/>
-							</div>
-							<div class="form-group">
-								<label for="email">
-									<i class="zmdi zmdi-email"></i>
-								</label>
-								<input type="text" name="email" id="email" placeholder="Email:   {{user.mail}}"/>
-							</div>
-							<div class="form-group">
-								<label for="ville">
-									<i class="zmdi zmdi-pin"></i>
-								</label>
-								<input type="text" name="ville" id="ville" placeholder="Ville de rattachement:   {{user.site.nomSite}}"/>
-							</div>
-
-
+	<!-- Sign up form -->
+	<section class="signup mt-5">
+		<div class="container">
+			<div class="signup-content">
+				<div class="signup-form">
+					<h2 class="form-title text-nowrap">profil de
+						{{user.pseudo}}</h2>
+					<div class="register-form" id="register-form">
+						<div class="form-group">
+							<label for="prenom">
+								<i class="zmdi zmdi-face"></i>
+							</label>
+							<input type="text" name="prenom" id="prenom" placeholder="Prénom:   {{user.prenom}}"/>
 						</div>
-					</div>
-					<div class="signup-image">
-						<figure><img src="{{('/images/icons/boy.png')}}" alt="sing up image"></figure>
+						<div class="form-group">
+							<label for="nom">
+								<i class="zmdi zmdi-account material-icons-name"></i>
+							</label>
+							<input type="text" name="nom" id="nom" placeholder="Nom:   {{user.nom}}"/>
+						</div>
+						<div class="form-group">
+							<label for="telephone">
+								<i class="zmdi zmdi-phone"></i>
+							</label>
+							<input type="text" name="telephone" id="telephone" placeholder="Téléphone:    {{user.telephone}}"/>
+						</div>
+						<div class="form-group">
+							<label for="email">
+								<i class="zmdi zmdi-email"></i>
+							</label>
+							<input type="text" name="email" id="email" placeholder="Email:   {{user.mail}}"/>
+						</div>
+						<div class="form-group">
+							<label for="ville">
+								<i class="zmdi zmdi-pin"></i>
+							</label>
+							<input type="text" name="ville" id="ville" placeholder="Ville de rattachement:   {{user.site.nomSite}}"/>
+						</div>
+
 
 					</div>
 				</div>
+				<div class="signup-image">
+					<figure><img src="{{('/images/icons/boy.png')}}" alt="sing up image"></figure>
+
+				</div>
 			</div>
-		</section>
-
-
-		<!-- JS -->
-		<script src="vendor/jquery/jquery.min.js"></script>
-		<script src="js/main.js"></script>
-	</body>
-	<!-- This templates was made by Colorlib (https://colorlib.com) -->
-</html>
+		</div>
+	</section>
+{% endblock %}

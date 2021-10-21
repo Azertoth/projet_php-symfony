@@ -9,92 +9,120 @@
 		<div>Participant :
 			{{ app.user.pseudo }}</div>
 	</div>
-	<div class="container m-10">
-		<h2>Filter les sorties</h2>
-		<div class="container">
-			{{ form_start(formView) }}
-			<div class="row">
-				<div class="col">
-					<div class="m-1 p-2">
-						{{ form_row(formView.site)}}
+
+	<div class="container-fluid m-10">
+		<div
+			class="row">
+
+
+			{# ------------------------seconde container--------------------------------- #}
+
+			<div class="container-fluid">
+				<h2>Filter les sorties</h2>
+				<div
+					class="row">
+
+
+					{# ------------------------smallest container--------------------------------- #}
+
+					<div class="container-fluid col-7">
+						{{ form_start(formView) }}
+						<div class="row d-flex align-items-center">
+							<div class="col-6">
+								<div class="m-1 p-2">
+									{{ form_row(formView.site)}}
+								</div>
+								<div class="m-1 p-2">
+									{{ form_row(formView.nomSortie)}}
+								</div>
+								<div class="m-1 p-2 d-flex flex-row gx-3">
+									{{ form_row(formView.dateDebut)}}
+									{{ form_row(formView.dateFin)}}
+								</div>
+							</div>
+
+							<div class="col-5">
+								{{ form_row(formView.sortie_check)}}
+							</div>
+							<div class="col-1">
+								<input type="submit" class="btn" value="Rechercher">
+							</div>
+						</div>
+						{{ form_end(formView) }}
 					</div>
-					<div class="m-1 p-2">
-						{{ form_row(formView.nomSortie)}}
+
+					{# ------------------------ end smallest container--------------------------------- #}
+
+
+					<div class="col-3">
+						<a class="navbar-brand" href="{{path('main')}}"><img src="{{('/images/icons/friends.png')}}" alt="logo" style="width:200px">
+							On va sortir</a>
 					</div>
-					<div class="m-1 p-2">
-						{{ form_row(formView.dateDebut)}}
-						{{ form_row(formView.dateFin)}}
-					</div>
-				</div>
-				<div class="col p-5">
-					{{ form_row(formView.sortie_check)}}
-				</div>
-				<div class="col m-5">
-					<input type="submit" class="btn btn-sortie" value="Rechercher" onclick="test(this);">
 				</div>
 			</div>
-			{{ form_end(formView) }}
+
+			{# ------------------------ end seconde container--------------------------------- #}
 		</div>
-		<div class="container px-4">
-			<div class="row gx-5">
-				{% for inscription in inscriptions %}
-					<div class="card cardrangement col-sm-4 col-3 gx-5 gy-5" style="width: 18rem;">
-						<div class="card-body">
-							<div class="text-center">
-								<h5 class="card-title">{{ inscription[0].sortie.nomSortie}}</h5>
-								{% if app.user.id == inscription[0].sortie.organisateur.id %}
-									<a class="btn" href="{{ path('sorties_modifier',{'id':inscription[0].sortie.id} ) }}">Modifier</a>
-								{% endif %}
-							</div>
-							<h6 class="card-subtitle mb-2 text-muted">{{ inscription[0].sortie.etat.libelle}}</h6>
-							<a href="{{ path('profil_participant',{'id':inscription[0].sortie.organisateur.id})}}" class="card-link">Organisateur :
-								{{ inscription[0].sortie.organisateur.pseudo}}</a>
-							<p class="card-text">Jour et heure :
-								{{ inscription[0].sortie.dateHeureDebut | date('d/m/Y H:i')}}</p>
-							<p class="card-text">Limite d'inscription :
-								{{ inscription[0].sortie.dateLimiteInscription | date('d/m/Y H:i')}}</p>
-							<p class="card-text">Nombre d'inscrits :
-								{{ inscription[1] - 1}}
-								/
-								{{ inscription[0].sortie.nbInscriptionsMax}}</p>
-							<p class="card-text">
-								{% if (inscription[0].sortie.etat.libelle == 'Créée') %}
-									{{ inscription[0].sortie.infosSortie}}
-								{% else %}
-									{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
-										{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
-											{{ inscription[0].sortie.infosSortie}}
-										{% else %}
-											ca aurait pu le faire !
-										{% endif %}
+
+		<div class="row">
+			{% for inscription in inscriptions %}
+				<div class="card cardrangement col-sm-4 col-3 " style="width: 18rem;">
+					<div class="card-body">
+						<div class="text-center">
+							<h5 class="card-title">{{ inscription[0].sortie.nomSortie}}</h5>
+							{% if app.user.id == inscription[0].sortie.organisateur.id %}
+								<a class="btn" href="{{ path('sorties_modifier',{'id':inscription[0].sortie.id} ) }}">Modifier</a>
+							{% endif %}
+						</div>
+						<h6 class="card-subtitle mb-2 text-muted">{{ inscription[0].sortie.etat.libelle}}</h6>
+						<a href="{{ path('profil_participant',{'id':inscription[0].sortie.organisateur.id})}}" class="card-link">Organisateur :
+							{{ inscription[0].sortie.organisateur.pseudo}}</a>
+						<p class="card-text">Jour et heure :
+							{{ inscription[0].sortie.dateHeureDebut | date('d/m/Y H:i')}}</p>
+						<p class="card-text">Limite d'inscription :
+							{{ inscription[0].sortie.dateLimiteInscription | date('d/m/Y H:i')}}</p>
+						<p class="card-text">Nombre d'inscrits :
+							{{ inscription[1] - 1}}
+							/
+							{{ inscription[0].sortie.nbInscriptionsMax}}</p>
+						<p class="card-text">
+							{% if (inscription[0].sortie.etat.libelle == 'Créée') %}
+								{{ inscription[0].sortie.infosSortie}}
+							{% else %}
+								{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
+									{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
+										{{ inscription[0].sortie.infosSortie}}
 									{% else %}
-										trop tard !
+										ca aurait pu le faire !
 									{% endif %}
+								{% else %}
+									trop tard !
 								{% endif %}
-							</p>
-							<p class="card-text text-center">
-								{% for sorties in participants %}
-									{% set inscrit = false %}
-									{% for participant in sorties.inscriptions %}
-										{% if (inscription[0].sortie.id == participant.sortie.id) %}
-											Déjà inscrit :
-											<a class="btn btn-alert" href="{{ path('desinscrire',{'id':inscription[0].sortie.id} ) }}">Se désister</a>
-											{% set inscrit = true %}
-										{% endif %}
-									{% endfor %}
-									{% if inscrit == false %}
-										{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
-											{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
-												<a class="btn btn-success" href="{{ path('sorties_voir',{'id':inscription[0].sortie.id} ) }}">S'inscrire</a>
-											{% endif %}
-										{% endif %}
+							{% endif %}
+						</p>
+						<p class="card-text text-center">
+							{% for sorties in participants %}
+								{% set inscrit = false %}
+								{% for participant in sorties.inscriptions %}
+									{% if (inscription[0].sortie.id == participant.sortie.id) %}
+										Déjà inscrit :
+										<a class="btn btn-alert" href="{{ path('desinscrire',{'id':inscription[0].sortie.id} ) }}">Se désister</a>
+										{% set inscrit = true %}
 									{% endif %}
 								{% endfor %}
-							</p>
-						</div>
+								{% if inscrit == false %}
+									{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
+										{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
+											<a class="btn btn-success" href="{{ path('sorties_voir',{'id':inscription[0].sortie.id} ) }}">S'inscrire</a>
+										{% endif %}
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						</p>
 					</div>
-				{% endfor %}
-			</div>
+				</div>
+			{% endfor %}
 		</div>
-	{% endblock %}
-	{% block javascripts %}{% endblock %}
+	</div>
+{% endblock %}
+{% block javascripts %}{% endblock %}

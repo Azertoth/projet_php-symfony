@@ -1,74 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>Modifier Mon Profil</title>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/3.6.95/css/materialdesignicons.css">
-		<link
-		rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+{% extends 'base.html.twig' %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/profil.css')}}">
+{% endblock %}
+{% block main%}
+	<div class="container mt-5 d-flex justify-content-center">
 
-		<!--===============================================================================================-->
-		<link rel="stylesheet" type="text/css" href="{{ asset('css/profil.css')}}">
+		<div class="row container d-flex justify-content-center">
+			<div class="col-12">
+				<div class="card user-card-full">
+					<div class="row m-l-0 m-r-0">
+						<div class="col-sm-4 bg-c-lite-green user-profile">
+							<div class="card-block text-center text-white">
+								<div class="m-b-25">
+									<img
+									src="{{('/images/icons/pngegg.png')}}" alt="sing up image" class="img-radius w-50">
+								{# <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image"> #}
+								</div>
+								<h3 class="f-w-800">{{app.user.pseudo}}</h3>
 
-	</head>
-	<body>
-		{% include "inc/nav.html.twig" %}
-		<div class="container mt-5 d-flex justify-content-center">
 
-			<div class="row container d-flex justify-content-center">
-				<div class="col-12">
-					<div class="card user-card-full">
-						<div class="row m-l-0 m-r-0">
-							<div class="col-sm-4 bg-c-lite-green user-profile">
-								<div class="card-block text-center text-white">
-									<div class="m-b-25">
-										<img
-										src="{{('/images/icons/pngegg.png')}}" alt="sing up image" class="img-radius w-50">
-									{# <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image"> #}
+							</div>
+						</div>
+						<div class="col-sm-8">
+							<div class="card-block ">
+								{{form_start(userForm)}}
+								<h2 class="m-b-20 p-b-5 b-b-default f-w-600">Modifier Mon Profil
+								</h2>
+								<div class="row">
+									<div class="col-12 form-group  ">
+										{{form_row(userForm.pseudo)}}
+										{{form_row(userForm.nom)}}
+										{{form_row(userForm.prenom)}}
+										{{form_row(userForm.mail)}}
+										{{form_row(userForm.telephone)}}
+										{{ form_row(userForm.password) }}
 									</div>
-									<h3 class="f-w-800">{{app.user.pseudo}}</h3>
-
-
 								</div>
 							</div>
-							<div class="col-sm-8">
-								<div class="card-block ">
-									{{form_start(userForm)}}
-									<h2 class="m-b-20 p-b-5 b-b-default f-w-600">Modifier Mon Profil
-									</h2>
-									<div class="row">
-										<div class="col-12 form-group  ">
-											{{form_row(userForm.pseudo)}}
-											{{form_row(userForm.nom)}}
-											{{form_row(userForm.prenom)}}
-											{{form_row(userForm.mail)}}
-											{{form_row(userForm.telephone)}}
-											{{ form_row(userForm.password) }}
-										</div>
+							<div class="container d-flex justify-content-center">
+								<div class="row ">
+									<div class="col-6">
+										<button type="submit" class="btn btn-success">Enregistrer</button>
+									</div>
+									<div class="col-6">
+										<a href="{{ path('mon_profil') }}" class="btn btn-secondary">Annuler</a>
 									</div>
 								</div>
-								<div class="container d-flex justify-content-center">
-									<div class="row ">
-										<div class="col-6">
-											<button type="submit" class="btn btn-success">Enregistrer</button>
-										</div>
-										<div class="col-6">
-											<a href="{{ path('mon_profil') }}" class="btn btn-secondary">Annuler</a>
-										</div>
-									</div>
-								</div>
-								{{form_end(userForm)}}
 							</div>
+							{{form_end(userForm)}}
 						</div>
 					</div>
 				</div>
 			</div>
-
 		</div>
 
+	</div>
 
-	</body>
-</html>
+{% endblock %}
