@@ -14,6 +14,7 @@
 
 		<!-- profilParticipant css -->
 		<link rel="stylesheet" href="{{asset('css/profilParticipant.css')}}">
+		
 	</head>
 	<body>
 		{% include "inc/nav.html.twig" %}
@@ -60,18 +61,17 @@
 							</div>
 
 
-					</div>
-					<div class="signup-image">
-						<figure>
-							{% if user.photo == null %}
-								<img src="{{('/images/icons/boy.png')}}" alt="sing up image">
-							{% else %}
-								<img src="{{ asset('images/photo_profil/' ~ user.photo) }}">
-							{% endif %}
-						</figure>
+						</div>
+						<div class="signup-image">
+							<figure>
+								{% if user.photo == null %}
+									<img src="{{('/images/icons/boy.png')}}" alt="sing up image">
+								{% else %}
+									<img src="{{ asset('images/photo_profil/' ~ user.photo) }}">
+								{% endif %}
+							</figure>
 
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-	</section>
-{% endblock %}
+			</section>

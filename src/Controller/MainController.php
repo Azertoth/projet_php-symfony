@@ -148,7 +148,7 @@ class MainController extends AbstractController
         $inscriptions =  $sortiesRepository->findSearch($data, $this->getUser());
 
         $inscript = $ir->findAllwithSortie();
-        //dd($inscriptions);
+        //dd($inscript);
         $participants = $pr->findSortieById($this->getUser()->getId());
         $sites = $sr->findAll();
 
@@ -161,7 +161,7 @@ class MainController extends AbstractController
             $sorties = $sortiesRepository->findSearch($data, $this->getUser());
             $currentUser = $this->getUser();
             $inscriptions = $sortiesRepository->findSearch($data, $this->getUser());
-           // dd($inscriptions[0]);
+            //dd($inscriptions);
             return $this->render('main/index.html.twig', [
                 'sortie' => $sorties,
                 'currentUser' => $currentUser,
@@ -173,6 +173,7 @@ class MainController extends AbstractController
 
             ]);
         }
+        //dd($inscriptions);
         $currentUser = $this->getUser();
         $sorties = $sortiesRepository->findSearch($data, $currentUser);
         return $this->render('main/index.html.twig', [

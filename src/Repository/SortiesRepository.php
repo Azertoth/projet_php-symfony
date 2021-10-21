@@ -112,7 +112,7 @@ class SortiesRepository extends ServiceEntityRepository
         return $this->paginator->paginate(
             $query,
             $search->page,
-            3
+            10
         );
     }
 

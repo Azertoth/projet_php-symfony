@@ -61,11 +61,12 @@ class UserController extends AbstractController
         $user = $this->getUser();
         $userForm = $this->createForm(ProfilType::class, $user);
         $userForm->handleRequest($request);
+       
 
         if ($userForm->isSubmitted() && $userForm->isValid()) {
             /** @var UploadedFile $photoFile */
             $photoFile = $userForm->get('photo')->getData();
-            //dd($photoFile);
+           
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($photoFile) {
@@ -96,10 +97,6 @@ class UserController extends AbstractController
             return $this->redirectToRoute('mon_profil');
         }
 
-        if (!$user) {
-
-            return $this->render('main/login.html.twig');
-        }
         return $this->render('user/editProfil.html.twig', [
             'userForm' => $userForm->createView(),
             'user' => $user

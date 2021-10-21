@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     /**
-     * @Route("/register", name="app_register")
+     * @Route("/admin/register", name="app_register")
      * @param SiteRepository $sr
      * @param Request $request
      * @param UserPasswordHasherInterface $userPasswordHasherInterface
@@ -31,8 +31,8 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $admin =$form->get('admin')->getData();
-            if($admin){
 
+            if($admin){
             $user->setRoles(['ROLE_ADMIN']);
             }
 

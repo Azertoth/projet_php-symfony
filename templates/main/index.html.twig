@@ -3,28 +3,11 @@
 	<link rel="stylesheet" href="{{asset('css/main.css')}}">
 {% endblock %}
 {% block main%}
-	<div class="container text-right">
-		<div>Date du jour :
-			{{ "now"|date('d/m/Y') }}</div>
-		<div>Participant :
-			{{ app.user.pseudo }}</div>
-		<div class="clock">
-			<div class="hour">
-				<div class="hr" id="hr"></div>
-			</div>
-			<div class="min">
-				<div class="mn" id="mn"></div>
-			</div>
-			<div class="sec">
-				<div class="sc" id="sc"></div>
-			</div>
-		</div>
-	</div>
 
-	<div class="container m-10">
-		<h2>Filter les sorties</h2>
+	<div class="container p-1 ">
+		<h3>Filter les sorties</h3>
 
-		<div class="container">
+		<div class="container d-flex justify-content-arround align-items-center">
 			{{ form_start(formSearch, {attr: {class: 'filter'}}) }}
 			<div class="row">
 				<div class="col">
@@ -34,13 +17,12 @@
 					<div class="m-1 p-2">
 						{{ form_row(formSearch.q) }}
 					</div>
-					<div class="m-1 p-2">
+					<div class="m-1 p-2 d-inline-flex d-flex-row">
 						{{  form_row(formSearch.dateDebut)}}
 						{{  form_row(formSearch.dateFin)}}
 					</div>
 				</div>
 				<div class="col p-5">
-
 					{{ form_row(formSearch.organiser) }}
 					{{  form_row(formSearch.inscrit)}}
 					{{  form_row(formSearch.pasInscrit)}}
@@ -51,24 +33,39 @@
 				</div>
 			</div>
 			{{ form_end(formSearch) }}
+			<div class="container col p-5 me-0">
+				<div class="clock">
+					<div class="hour">
+						<div class="hr" id="hr"></div>
+					</div>
+					<div class="min">
+						<div class="mn" id="mn"></div>
+					</div>
+					<div class="sec">
+						<div class="sc" id="sc"></div>
+					</div>
+					<div>
+						{{ "now"|date('d/m/Y') }}</div>
+				</div>
+			</div>
 		</div>
 
 
-		<div class="container px-4">
+		<div class="container m-2 gx-2 px-4 d-flex d-flex-row">
 			{% for inscription in inscriptions %}
 				<div class="row gx-5">
 					<div class="card cardrangement col-sm-4 col-3 mx-5 my-5" style="width: 18rem;">
 						<div class="card-body">
 							<div class="text-center">
 								<h5 class="card-title">{{inscription.nomSortie}}</h5>
-								{#								{% if app.user.id == sortie.organisateur.id %}#}
-							{#									<a class="btn" href="{{ path('sorties_modifier',{'id':inscription[0].sortie.id} ) }}">Modifier</a>#}
-								{#								{% endif %}#}
+								{% if app.user.id == inscription.organisateur.id %}
+									<a class="btn" href="{{ path('sorties_modifier',{'id':inscription.id} ) }}">Modifier</a>
+								{% endif %}
 							</div>
 							<h6 class="card-subtitle mb-2 text-muted">
 								{{inscription.etat.libelle}}
 							</h6>
-							<a href="#{# {{ path('profil_participant',{'id':sortie.organisateur.id})}} #}" class="card-link">Organisateur :
+							<a href=" {{ path('profil_participant',{'id':inscription.organisateur.id})}} " class="card-link">Organisateur :
 								{{ inscription.organisateur.pseudo}}
 							</a>
 							<p class="card-text">Jour et heure :
@@ -78,9 +75,13 @@
 								{{ inscription.dateLimiteInscription | date('d/m/Y')}}
 							</p>
 							<p class="card-text">Nombre d'inscrits :
-							{#							{{ inscript[1]-1}}#}
-								{#							/#}
-								{#							{{ inscription.sortie.nbInscriptionsMax}}#}
+								{% for balade in inscript %}
+									{% if balade[0].sortie.id == inscription.id %}
+										{{ balade[1]-1}}
+									{% endif %}
+								{% endfor %}
+								/
+								{{ inscription.nbInscriptionsMax}}
 							</p>
 							<p class="card-text">
 								{% if (inscription.etat.libelle == 'Créée') %}
@@ -106,41 +107,51 @@
 										{% for participant in sorties.inscriptions %}
 											{% if (inscription.id == participant.id) %}
 												{% set inscrit = true %}
+												Déjà inscrit :
+												<a class="btn btn-alert" href="{{ path('desinscrire',{id:inscription.id} ) }}" style="color:red;">Se désister</a>
 											{% endif %}
 										{% endfor %}
 										{% if inscrit == false %}
 											{% if (date(inscription.dateLimiteInscription) < date('now'))%}
 												{% if (inscription.etat.libelle == 'Ouverte') %}
-												
+													<a class="btn btn-success" href="{{ path('sorties_voir',{id:inscription.id} ) }}">S'inscrire</a>
 												{% endif %}
 											{% endif %}
 										{% endif %}
 									{% endfor %}
-									<div class="mt-4 offset-md-4">
-										{# {{ knp_pagination_render(inscription, ) }} #}
-									</div>
-								{% endfor %}	
+								{% endfor %}
 							</p>
+							<div class="d-flex">
+							{% if app.user.administrateur %}
+								<a class="btn btn-alert" href="{{ path('desinscrire',{id:inscription.id} ) }}" style="color:red;">Se désister</a>
+							{% endif %}
+							</div>
 						</div>
 					</div>
 				</div>
 			{% endfor %}
+			<div class="navigation">
+				{{ knp_pagination_render(inscriptions) }}
+			</div>
 		</div>
-	<div>		
-	<script type="text/javascript">
-			const deg = 6;
-			const hr = document.querySelector('hr');
-			const mn = document.querySelector('mn');
-			const sc = document.querySelector('sc');
-			let day = newDate();
-			let hh = day.getHours() * 30;
-			let mn = day.getMinutes() * deg;
-			let sc = day.getSeconds() * deg;
-			hr.style.transform = `rotateZ(${(hh) + (mm / 12)}deg)`;
-			mn.style.transform = `rotateZ(${mn}deg)`;
-			sc.style.transform = `rotateZ(${sc}deg)`;
-	</script>
-{% endblock %}
-{% block javascripts %}
-{% endblock %}
-						
+		<div class="container">
+			<a class="btn btn-danger" href="{{ path('sorties_create') }}">Créer une sortie</a>
+		</div>
+		<div>
+			<script type="text/javascript">
+				const deg = 6;
+const hr = document.querySelector('hr');
+const mn = document.querySelector('mn');
+const sc = document.querySelector('sc');
+let day = newDate();
+let hh = day.getHours() * 30;
+let mn = day.getMinutes() * deg;
+let sc = day.getSeconds() * deg;
+hr.style.transform = `rotateZ(${
+(hh) + (mm / 12)
+}deg)`;
+mn.style.transform = `rotateZ(${mn}deg)`;
+sc.style.transform = `rotateZ(${sc}deg)`;
+			</script>
+		{% endblock %}
+		{% block javascripts %}{% endblock %}
