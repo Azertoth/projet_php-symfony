@@ -5,97 +5,132 @@
 {% endblock %}
 
 {% block main%}
-<div class="container text-right">
-	<div>Date du jour :
-		{{ "now"|date('d/m/Y') }}</div>
-	<div>Participant :
-		{{ app.user.pseudo }}</div>
-</div>
-<div class="container m-10">
-	<h2>Filter les sorties</h2>
-	<div class="container">
-		{{ form_start(formView) }}
-		<div class="row">
-			<div class="col">
-				<div class="m-1 p-2">
-					{{ form_row(formView.site)}}
-				</div>
-				<div class="m-1 p-2">
-					{{ form_row(formView.nomSortie)}}
-				</div>
-				<div class="m-1 p-2">
-					{{ form_row(formView.dateDebut)}}
-					{{ form_row(formView.dateFin)}}
-				</div>
-			</div>
-			<div class="col p-5">
-				{{ form_row(formView.sortie_check)}}
-			</div>
-			<div class="col m-5">
-				<input type="submit" class="btn btn-sortie" value="Rechercher" onclick="test(this);">
+	<div class="container text-right">
+		<div>Date du jour :
+			{{ "now"|date('d/m/Y') }}
+		</div>
+		<div>
+			<img src="{{ asset('images/photo_profil/' ~ app.user.photo) }}">
+			<div>
+				{{ app.user.pseudo }}
 			</div>
 		</div>
-		{{ form_end(formView) }}
+		<div class="clock">
+			<div class="hour">
+				<div class="hr" id="hr"></div>
+			</div>
+			<div class="min">
+				<div class="mn" id="mn"></div>
+			</div>
+			<div class="sec">
+				<div class="sc" id="sc"></div>
+			</div>
+		</div>
 	</div>
-	<div class="container px-4">
-		<div class="row gx-5">
-			{% for inscription in inscriptions %}
-				<div class="card cardrangement col-sm-4 col-3 gx-5 gy-5" style="width: 18rem;">
-					<div class="card-body">
-						<div class="text-center">
-							<h5 class="card-title">{{ inscription[0].sortie.nomSortie}}</h5>
-						</div>
-						<h6 class="card-subtitle mb-2 text-muted">{{ inscription[0].sortie.etat.libelle}}</h6>
-						<a href="{{ path('profil_participant',{'id':inscription[0].sortie.organisateur.id})}}" class="card-link">Organisateur :
-							{{ inscription[0].sortie.organisateur.pseudo}}</a>
-						<p class="card-text">Jour et heure :
-							{{ inscription[0].sortie.dateHeureDebut | date('d/m/Y H:i')}}</p>
-						<p class="card-text">Limite d'inscription :
-							{{ inscription[0].sortie.dateLimiteInscription | date('d/m/Y H:i')}}</p>
-						<p class="card-text">Nombre d'inscrits :
-							{{ inscription[1] - 1}}
-							/
-							{{ inscription[0].sortie.nbInscriptionsMax}}</p>
-						<p class="card-text">
-							{% if (inscription[0].sortie.etat.libelle == 'Créée') %}
-								{{ inscription[0].sortie.infosSortie}}
-							{% else %}
-								{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
-									{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
-										{{ inscription[0].sortie.infosSortie}}
-									{% else %}
-										ca aurait pu le faire !
-									{% endif %}
-								{% else %}
-									trop tard !
-								{% endif %}
-							{% endif %}
-						</p>
-						<p class="card-text text-center">
-							{% for sorties in participants %}
-								{% set inscrit = false %}
-								{% for participant in sorties.inscriptions %}
-									{% if (inscription[0].sortie.id == participant.sortie.id) %}
-										Déjà inscrit : <a class="btn btn-alert" href="{{ path('desinscrire',{'id':inscription[0].sortie.id} ) }}">Se désister</a>
-										{% set inscrit = true %}
-									{% endif %}
-								{% endfor %}
-								{% if inscrit == false %}
-									{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
-										{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
-											<a class="btn btn-success" href="{{ path('sorties_voir',{'id':inscription[0].sortie.id} ) }}">S'inscrire</a>
-										{% endif %}
-									{% endif %}
-								{% endif %}
-							{% endfor %}
-						</p>
+	<div class="container m-10">
+		<h2>Filter les sorties</h2>
+		<div class="container">
+			{{ form_start(formView) }}
+			<div class="row">
+				<div class="col">
+					<div class="m-1 p-2">
+						{{ form_row(formView.site)}}
+					</div>
+					<div class="m-1 p-2">
+						{{ form_row(formView.nomSortie)}}
+					</div>
+					<div class="m-1 p-2">
+						{{ form_row(formView.dateDebut)}}
+						{{ form_row(formView.dateFin)}}
 					</div>
 				</div>
-			{% endfor %}
+				<div class="col p-5">
+					{{ form_row(formView.sortie_check)}}
+				</div>
+				<div class="col m-5">
+					<input type="submit" class="btn btn-sortie" value="Rechercher" onclick="test(this);">
+				</div>
+			</div>
+			{{ form_end(formView) }}
 		</div>
-	</div>
-{% endblock %}
+		<div class="container px-4">
+			<div class="row gx-5">
+				{% for inscription in inscriptions %}
+					<div class="card cardrangement col-sm-4 col-3 gx-5 gy-5" style="width: 18rem;">
+						<div class="card-body">
+							<div class="text-center">
+								<h5 class="card-title">{{ inscription[0].sortie.nomSortie}}</h5>
+								{% if app.user.id == inscription[0].sortie.organisateur.id %}
+									<a class="btn" href="{{ path('sorties_modifier',{'id':inscription[0].sortie.id} ) }}">Modifier</a>
+								{% endif %}
+							</div>
+							<h6 class="card-subtitle mb-2 text-muted">{{ inscription[0].sortie.etat.libelle}}</h6>
+							<a href="{{ path('profil_participant',{'id':inscription[0].sortie.organisateur.id})}}" class="card-link">Organisateur :
+								{{ inscription[0].sortie.organisateur.pseudo}}</a>
+							<p class="card-text">Jour et heure :
+								{{ inscription[0].sortie.dateHeureDebut | date('d/m/Y H:i')}}</p>
+							<p class="card-text">Limite d'inscription :
+								{{ inscription[0].sortie.dateLimiteInscription | date('d/m/Y H:i')}}</p>
+							<p class="card-text">Nombre d'inscrits :
+								{{ inscription[1] - 1}}
+								/
+								{{ inscription[0].sortie.nbInscriptionsMax}}</p>
+							<p class="card-text">
+								{% if (inscription[0].sortie.etat.libelle == 'Créée') %}
+									{{ inscription[0].sortie.infosSortie}}
+								{% else %}
+									{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
+										{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
+											{{ inscription[0].sortie.infosSortie}}
+										{% else %}
+											ca aurait pu le faire !
+										{% endif %}
+									{% else %}
+										trop tard !
+									{% endif %}
+								{% endif %}
+							</p>
+							<p class="card-text text-center">
+								{% for sorties in participants %}
+									{% set inscrit = false %}
+									{% for participant in sorties.inscriptions %}
+										{% if (inscription[0].sortie.id == participant.sortie.id) %}
+											Déjà inscrit :
+											<a class="btn btn-alert" href="{{ path('desinscrire',{'id':inscription[0].sortie.id} ) }}">Se désister</a>
+											{% set inscrit = true %}
+										{% endif %}
+									{% endfor %}
+									{% if inscrit == false %}
+										{% if (date(inscription[0].sortie.dateLimiteInscription) < date('now'))%}
+											{% if (inscription[0].sortie.etat.libelle == 'Ouverte') %}
+												<a class="btn btn-success" href="{{ path('sorties_voir',{'id':inscription[0].sortie.id} ) }}">S'inscrire</a>
+											{% endif %}
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+							</p>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<script type="text/javascript">
+			const deg = 6;
+			const hr = document.querySelector('hr');
+			const mn = document.querySelector('mn');
+			const sc = document.querySelector('sc');
 
-{% block javascripts %}
+			let day = new Date();
+			let hh = day.getHours() * 30;
+			let mn = day.getMinutes() * deg;
+			let sc = day.getSeconds() * deg;
 
-{% endblock %}
+			hr.style.transform = `rotateZ(${
+			(hh) + (mm / 12)
+			}deg)`;
+			mn.style.transform = `rotateZ(${mn}deg)`;
+			sc.style.transform = `rotateZ(${sc}deg)`;
+		</script>
+	{% endblock %}
+
+	{% block javascripts %}{% endblock %}

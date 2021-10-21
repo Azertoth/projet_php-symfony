@@ -4,11 +4,13 @@ namespace App\Form;
 
 use App\Entity\Particpant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -65,6 +67,22 @@ class ProfilType extends AbstractType
                 'attr' => ['class' => 'text-muted f-w-400 form-control'],
                 'label' => 'Email:',
                 'required' => false,
+            ])
+            ->add('photo', FileType::class, [
+                'label'=> 'photo (.jpg)',
+                'mapped'=> false,
+                'required'=> false,
+                'constraints'=> [
+                    new File([
+                    'maxSize'=>'1024k',
+                    'mimeTypes'=>[
+                        'image/jpeg', 
+                        'image/jpg',
+                        'image/png',
+                    ],
+                    'mimeTypesMessage' => 'Merci de respecter le format de la photo',
+                    ])
+                ]
             ])
             //->add('administrateur')
             //->add('actif')

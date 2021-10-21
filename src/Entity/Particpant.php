@@ -85,6 +85,11 @@ class Particpant implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $site;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
 
 
 
@@ -323,6 +328,18 @@ class Particpant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSite(?Site $site): self
     {
         $this->site = $site;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }
