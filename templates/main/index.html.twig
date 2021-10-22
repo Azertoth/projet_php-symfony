@@ -3,37 +3,40 @@
 	<link rel="stylesheet" href="{{asset('css/main.css')}}">
 {% endblock %}
 {% block main%}
+	{#----------------------------- up-------------------------------------------#}
+	{#-----------------------------up container-------------------------------------------#}
+		<div class="container"> <h3 class="">Filter les sorties</h3>
+		<class="d-flex flex-row">
 
-	<div class="container p-1 ">
-		<h3>Filter les sorties</h3>
+			{#-----------------------------small container-------------------------------------------#}
+			<section class="d-flex flex-row ">
 
-		<div class="container d-flex justify-content-arround align-items-center">
-			{{ form_start(formSearch, {attr: {class: 'filter'}}) }}
-			<div class="row">
-				<div class="col">
-					<div class="m-1 p-2">
-						{{ form_row(formSearch.site) }}
+				{{ form_start(formSearch, {attr: {class: 'filter'}}) }}
+				<div class="row">
+					<div class="col-3">
+						<div class="">
+							{{ form_row(formSearch.site) }}
+						</div>
+						<div class="">
+							{{ form_row(formSearch.q) }}
+						</div>
+						<div class="d-inline-flex d-flex-row">
+							{{  form_row(formSearch.dateDebut)}}
+							{{  form_row(formSearch.dateFin)}}
+						</div>
 					</div>
-					<div class="m-1 p-2">
-						{{ form_row(formSearch.q) }}
+					<div class="col-3">
+						{{ form_row(formSearch.organiser) }}
+						{{  form_row(formSearch.inscrit)}}
+						{{  form_row(formSearch.pasInscrit)}}
+						{{  form_row(formSearch.passee)}}
 					</div>
-					<div class="m-1 p-2 d-inline-flex d-flex-row">
-						{{  form_row(formSearch.dateDebut)}}
-						{{  form_row(formSearch.dateFin)}}
+					<div class="col-2">
+						<input type="submit" class="btn btn-sortie" value="Rechercher">
 					</div>
 				</div>
-				<div class="col p-5">
-					{{ form_row(formSearch.organiser) }}
-					{{  form_row(formSearch.inscrit)}}
-					{{  form_row(formSearch.pasInscrit)}}
-					{{  form_row(formSearch.passee)}}
-				</div>
-				<div class="col m-5">
-					<input type="submit" class="btn btn-sortie" value="Rechercher">
-				</div>
-			</div>
 			{{ form_end(formSearch) }}
-			<div class="container col p-5 me-0">
+			 <section class="col-4 text-center">
 				<div class="clock">
 					<div class="hour">
 						<div class="hr" id="hr"></div>
@@ -44,114 +47,167 @@
 					<div class="sec">
 						<div class="sc" id="sc"></div>
 					</div>
-					<div>
-						{{ "now"|date('d/m/Y') }}</div>
 				</div>
-			</div>
+				<div class="text-center">
+					Le
+					{{ "now"|date('d/m/Y') }}
+				</div>
+			</section> 
+			</section>
+			{#----------------------------- end small container-------------------------------------------#}
 		</div>
+	</div>
+	{#----------------------------- end up container-------------------------------------------#}
 
-
-		<div class="container m-2 gx-2 px-4 d-flex d-flex-row">
-			{% for inscription in inscriptions %}
-				<div class="row gx-5">
-					<div class="card cardrangement col-sm-4 col-3 mx-5 my-5" style="width: 18rem;">
-						<div class="card-body">
-							<div class="text-center">
-								<h5 class="card-title">{{inscription.nomSortie}}</h5>
-								{% if app.user.id == inscription.organisateur.id %}
-									<a class="btn" href="{{ path('sorties_modifier',{'id':inscription.id} ) }}">Modifier</a>
-								{% endif %}
-							</div>
-							<h6 class="card-subtitle mb-2 text-muted">
-								{{inscription.etat.libelle}}
-							</h6>
-							<a href=" {{ path('profil_participant',{'id':inscription.organisateur.id})}} " class="card-link">Organisateur :
-								{{ inscription.organisateur.pseudo}}
-							</a>
-							<p class="card-text">Jour et heure :
-								{{ inscription.dateHeureDebut | date('d/m/Y H:i')}}
-							</p>
-							<p class="card-text">Limite d'inscription :
-								{{ inscription.dateLimiteInscription | date('d/m/Y')}}
-							</p>
-							<p class="card-text">Nombre d'inscrits :
-								{% for balade in inscript %}
-									{% if balade[0].sortie.id == inscription.id %}
-										{{ balade[1]-1}}
+	{#----------------------------- down-------------------------------------------#}
+	<div class="container">
+		<div
+			class="d-flex row">
+			{#----------------------------- cards container-------------------------------------------#}
+			<div class="d-flex flex-row m-2 col">
+				{% for inscription in inscriptions %}
+					<div class="d-flex gx-1">
+						<div class="card cardrangement col-sm-4 col-3 mx-1 my-1" style="width: 18rem;">
+							<div class="card-body">
+								<div class="text-center">
+									<h5 class="card-title">{{inscription.nomSortie}}</h5>
+									{% if app.user.id == inscription.organisateur.id %}
+										<a class="btn" href="{{ path('sorties_modifier',{'id':inscription.id} ) }}">Modifier</a>
 									{% endif %}
-								{% endfor %}
-								/
-								{{ inscription.nbInscriptionsMax}}
-							</p>
-							<p class="card-text">
-								{% if (inscription.etat.libelle == 'Créée') %}
-									{{ inscription.infosSortie}}
-								{% else %}
-									{% if (date(inscription.dateLimiteInscription) < date('now'))%}
-										{% if (inscription.etat.libelle == 'Ouverte') %}
-											{{ inscription.infosSortie}}
-										{% else %}
-											ca aurait pu le faire !
-										{% endif %}
-									{% else %}
-										trop tard !
-									{% endif %}
-								{% endif %}
-							</p>
-							<p class="card-text text-center">
-
-								{% for sorties in participants %}
-									{% set inscrit = false %}
-									{% for sorties in participants %}
-										{% set inscrit = false %}
-										{% for participant in sorties.inscriptions %}
-											{% if (inscription.id == participant.id) %}
-												{% set inscrit = true %}
-												Déjà inscrit :
-												<a class="btn btn-alert" href="{{ path('desinscrire',{id:inscription.id} ) }}" style="color:red;">Se désister</a>
-											{% endif %}
-										{% endfor %}
-										{% if inscrit == false %}
-											{% if (date(inscription.dateLimiteInscription) < date('now'))%}
-												{% if (inscription.etat.libelle == 'Ouverte') %}
-													<a class="btn btn-success" href="{{ path('sorties_voir',{id:inscription.id} ) }}">S'inscrire</a>
-												{% endif %}
-											{% endif %}
+								</div>
+								<h6 class="card-subtitle mb-2 text-muted">
+									{{inscription.etat.libelle}}
+								</h6>
+								<a href=" {{ path('profil_participant',{'id':inscription.organisateur.id})}} " class="card-link">Organisateur :
+									{{ inscription.organisateur.pseudo}}
+								</a>
+								<p class="card-text">Jour et heure :
+									{{ inscription.dateHeureDebut | date('d/m/Y H:i')}}
+								</p>
+								<p class="card-text">Limite d'inscription :
+									{{ inscription.dateLimiteInscription | date('d/m/Y')}}
+								</p>
+								<p class="card-text">Nombre d'inscrits :
+									{% for balade in inscript %}
+										{% if balade[0].sortie.id == inscription.id %}
+											{{ balade[1]-1}}
 										{% endif %}
 									{% endfor %}
-								{% endfor %}
-							</p>
-							<div class="d-flex">
-							{% if app.user.administrateur %}
-								<a class="btn btn-alert" href="{{ path('desinscrire',{id:inscription.id} ) }}" style="color:red;">Se désister</a>
-							{% endif %}
+									/
+									{{ inscription.nbInscriptionsMax}}
+								</p>
+								<p class="card-text">
+									{% if (inscription.etat.libelle == 'Créée') %}
+										{{ inscription.infosSortie}}
+									{% else %}
+										{% if (date(inscription.dateLimiteInscription) < date('now'))%}
+											{% if (inscription.etat.libelle == 'Ouverte') %}
+												{{ inscription.infosSortie}}
+											{% else %}
+												ca aurait pu le faire !
+											{% endif %}
+										{% else %}
+											trop tard !
+										{% endif %}
+									{% endif %}
+								</p>
+								<p class="card-text text-center">
+									{% for sorties in participants %}
+										{% set inscrit = false %}
+										{% for sorties in participants %}
+											{% set inscrit = false %}
+											{% for participant in sorties.inscriptions %}
+												{% if (inscription.id == participant.id) %}
+													{% set inscrit = true %}
+													Déjà inscrit :
+													<a class="btn btn-alert" href="{{ path('desinscrire',{id:inscription.id} ) }}" style="color:red;">Se désister</a>
+												{% endif %}
+											{% endfor %}
+											{% if inscrit == false %}
+												{% if (date(inscription.dateLimiteInscription) < date('now'))%}
+													{% if (inscription.etat.libelle == 'Ouverte') %}
+														<a class="btn btn-success" href="{{ path('sorties_voir',{id:inscription.id} ) }}">S'inscrire</a>
+													{% endif %}
+												{% endif %}
+											{% endif %}
+										{% endfor %}
+									{% endfor %}
+								</p>
+								<div class="d-flex">
+									{% if app.user.administrateur %}
+										<a class="btn btn-alert" href="{{ path('desinscrire',{id:inscription.id} ) }}" style="color:red;">Supprimer la sortie</a>
+									{% endif %}
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 			{% endfor %}
+				</div>
 			<div class="navigation">
 				{{ knp_pagination_render(inscriptions) }}
 			</div>
+			{# ------------------#}
+			{# {% set queryParams = app.request.query.all %}
+																																										    {% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
+																																										
+																																										
+																																										    <ul class="pagination">
+																																										        <li class="{{ (page == 1) ? 'disabled' : '' }}">
+																																										            <a href="?page=1&{{queryString}}">
+																																										                <i class="fas fa-step-backward"></i>
+																																										            </a>
+																																										        </li>    
+																																										        <li class="{{ (page == 1) ? 'disabled' : '' }}">
+																																										            <a href="{{ (page > 1) ? '?page=' ~ (page - 1) : '' }}&{{queryString}}">
+																																										                <i class="fas fa-angle-left"></i>
+																																										            </a>
+																																										        </li>
+																																										        {% set pages = (total / limit)|round(0, 'ceil') %}
+																																										        {% for item in 1..pages %}
+																																										            <li class="{{ (page == item) ? 'active' : '' }}">
+																																										                <a href="?page={{ item }}&{{queryString}}">{{ item }}</a>
+																																										            </li>
+																																										        {% endfor %}
+																																										        <li class="{{ (page == pages) ? 'disabled' : '' }}">
+																																										            <a href="{{ (page < pages) ? '?page=' ~ (page + 1) : '' }}&{{queryString}}">
+																																										                <i class="fas fa-angle-right"></i>
+																																										            </a>
+																																										        </li>
+																																										        <li class="{{ (page == pages) ? 'disabled' : '' }}">
+																																										            <a href="?page={{ pages }}&{{queryString}}">
+																																										                <i class="fas fa-step-forward"></i>
+																																										            </a>
+																																										        </li>
+																																										
+																																										    </ul> #}
+			{# -----------------------------------#}
+
+			{#----------------------------- end cards container-------------------------------------------#}
+				<div class=" col-2"> <a class="btn btn-danger" href="{{ path('sorties_create') }}">Créer une sortie</a>
+			</div>
 		</div>
-		<div class="container">
-			<a class="btn btn-danger" href="{{ path('sorties_create') }}">Créer une sortie</a>
-		</div>
-		<div>
-			<script type="text/javascript">
-				const deg = 6;
-const hr = document.querySelector('hr');
-const mn = document.querySelector('mn');
-const sc = document.querySelector('sc');
-let day = newDate();
+	</div>
+
+	<script type="text/javascript">
+		const deg = 6;
+const hr = document.querySelector('#hr');
+const mn = document.querySelector('#mn');
+const sc = document.querySelector('#sc');
+
+setInterval(() => {
+let day = new Date();
+console.log(day);
 let hh = day.getHours() * 30;
-let mn = day.getMinutes() * deg;
-let sc = day.getSeconds() * deg;
+let mm = day.getMinutes() * deg;
+let ss = day.getSeconds() * deg;
+
 hr.style.transform = `rotateZ(${
-(hh) + (mm / 12)
+hh + (mm / 12)
 }deg)`;
-mn.style.transform = `rotateZ(${mn}deg)`;
-sc.style.transform = `rotateZ(${sc}deg)`;
-			</script>
-		{% endblock %}
-		{% block javascripts %}{% endblock %}
+mn.style.transform = `rotateZ(${mm}deg)`;
+sc.style.transform = `rotateZ(${ss}deg)`;
+
+}, 1000);
+	</script>
+{% endblock %}
+{% block javascripts %}{% endblock %}

@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -143,6 +144,20 @@ class MainController extends AbstractController
      */
     public function index(SortiesRepository $sortiesRepository,Request $request,InscriptionsRepository $ir,ParticpantRepository $pr,SiteRepository $sr): Response
     {
+        //----------------------------------
+        // $data = new SearchData();
+        // $limit = 3;
+        // $page = (int)$request->query->get("page", 1);
+        // $filters = $request->get("inscriptions");
+        // $inscriptions = $sortiesRepository->findSearch($page, $limit, $data, $this->getUser());
+        // $total = $sortiesRepository->getTotalAnnonces($data, $this->getUser());
+        // if($request->get('ajax')){
+        //     return new JsonResponse([
+        //         'content' => $this->renderView('main/index.html.twig',
+        //          compact('inscriptions', 'total', 'limit', 'page'))
+        //     ]);
+        // }
+        // -----------------------------------------
         $data = new SearchData();
         $data->page = $request->get('page', 1);
         $inscriptions =  $sortiesRepository->findSearch($data, $this->getUser());
@@ -172,7 +187,7 @@ class MainController extends AbstractController
                 'sites'=>$sites
 
             ]);
-        }
+       }
         //dd($inscriptions);
         $currentUser = $this->getUser();
         $sorties = $sortiesRepository->findSearch($data, $currentUser);
@@ -184,8 +199,11 @@ class MainController extends AbstractController
             'participants'=>$participants,
             'sites'=>$sites,
             'inscriptions'=>$inscriptions,
+            // 'total'=>$total,
+            // 'limit'=>$limit,
+            // 'page'=>$page
 
-
+           
         ]);
     }
 

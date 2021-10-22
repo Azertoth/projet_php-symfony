@@ -1,14 +1,8 @@
 {% extends 'base.html.twig' %}
 {% block head %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-		<link
-		rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js">
-		<!-- Font Icon -->
-		<link
-		rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
 
-		<!-- profilParticipant css -->
-		<link rel="stylesheet" href="{{asset('css/profilParticipant.css')}}">
+	<!-- profilParticipant css -->
+	<link rel="stylesheet" href="{{asset('css/profilParticipant.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('css/profil.css')}}">
 {% endblock %}
 {% block main%}
@@ -33,41 +27,42 @@
 							<i class="far fa-edit"></i>
 						</a>
 					</div>
-				</div>
-				<div class="col-sm-8">
-					<div class="card-block">
-						<h5 class="m-b-20 p-b-5 b-b-default f-w-600">Mon profil</h5>
-						<div class="row">
-							<div class="col-sm-6">
-								<p class="m-b-10 f-w-600">Prénom:</p>
-								<h6 class="text-muted f-w-400">{{app.user.prenom}}</h6>
+
+					<div class="col-sm-8">
+						<div class="card-block">
+							<h5 class="m-b-20 p-b-5 b-b-default f-w-600">Mon profil</h5>
+							<div class="row">
+								<div class="col-sm-6">
+									<p class="m-b-10 f-w-600">Prénom:</p>
+									<h6 class="text-muted f-w-400">{{app.user.prenom}}</h6>
+								</div>
+								<div class="col-sm-6">
+									<p class="m-b-10 f-w-600">Nom:</p>
+									<h6 class="text-muted f-w-400">{{app.user.nom}}</h6>
+								</div>
 							</div>
-							<div class="col-sm-6">
-								<p class="m-b-10 f-w-600">Nom:</p>
-								<h6 class="text-muted f-w-400">{{app.user.nom}}</h6>
+							<div class="row">
+								<div class="col-sm-6">
+									<p class="m-b-10 f-w-600">Téléphone:</p>
+									<h6 class="text-muted f-w-400">{{app.user.telephone}}</h6>
+								</div>
+								<div class="col-sm-6">
+									<p class="m-b-10 f-w-600">Email:</p>
+									<h6 class="text-muted f-w-400">{{app.user.mail}}</h6>
+								</div>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-6">
-								<p class="m-b-10 f-w-600">Téléphone:</p>
-								<h6 class="text-muted f-w-400">{{app.user.telephone}}</h6>
-							</div>
-							<div class="col-sm-6">
-								<p class="m-b-10 f-w-600">Email:</p>
-								<h6 class="text-muted f-w-400">{{app.user.mail}}</h6>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col">
-								<p class="m-b-10 f-w-600">Ville de rattachement:</p>
-								<h6 class="text-muted f-w-400">{{app.user.site.nomSite}}</h6>
+							<div class="row">
+								<div class="col">
+									<p class="m-b-10 f-w-600">Ville de rattachement:</p>
+									<h6 class="text-muted f-w-400">{{app.user.site.nomSite}}</h6>
+								</div>
+
 							</div>
 
 						</div>
-
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>{% endblock %}
+{% endblock %}

@@ -112,7 +112,7 @@ class SortiesRepository extends ServiceEntityRepository
         return $this->paginator->paginate(
             $query,
             $search->page,
-            10
+            
         );
     }
 
@@ -148,5 +148,152 @@ class SortiesRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+
+    //----------------------------------------*
+     /**
+     * Returns all Annonces per page
+     * @return void 
+     */
+    public function findSearch2($page, $limit,SearchData $search, Particpant $currentUser){
+
+        $date = new \DateTime('now');
+        $date->sub(new \DateInterval('P1M'));
+
+        $query = $this
+            ->createQueryBuilder('s')
+            ->select('c', 's', 'e')
+            ->join('s.site', 'c')
+            ->join('s.etat', 'e')
+            ->andWhere('e.libelle != (:etat) ')
+            ->setParameter('etat', 'creee')
+            ->andWhere('s.dateHeureDebut > (:date)')
+            ->setParameter('date',$date)
+            ;
+            
+
+        // On filtre les données
+        if (!empty($search->q)){
+            $query = $query
+                ->andWhere('s.nomSortie LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if (!empty($search->site)){
+            $query = $query
+                ->andWhere('c.id = (:site)')
+                ->setParameter('site', $search->site);
+        }
+        if ($search->organiser == true){
+            $query = $query
+                ->andWhere('s.organisateur = (:user)')
+                ->setParameter('user', $currentUser);
+        }
+        if ($search->inscrit == true && $search->pasInscrit == true){
+
+        } else {
+            if ($search->inscrit == true){
+                $query = $query
+                    ->addSelect('i')
+                    ->join('s.inscriptions', 'i')
+                    ->andWhere('i.participants = :user')
+                    ->setParameter('user', $currentUser)
+                ;
+            }
+            if ($search->pasInscrit == true){
+                $query = $query
+                    ->addSelect('i')
+                    ->leftJoin('s.inscriptions', 'i')
+                   ->andWhere('i.participants is null OR i.participants != (:user)')
+                    ->setParameter('user', $currentUser)
+                ;
+            }
+        }
+        if ($search->passee == true){
+            $query = $query
+                ->andWhere('e.libelle = (:libelle)')
+                ->setParameter('libelle', 'passee');
+        }
+        if ($search->dateDebut !== null){
+            $query = $query
+                ->andWhere('s.dateHeureDebut > = (:dateHeureDebut)')
+                ->setParameter('dateHeureDebut', $search->dateDebut);
+        }
+        if ($search->dateFin !== null){
+            $query = $query
+                ->andWhere('s.dateLimiteInscription < = (:date_limite_inscription)')
+                ->setParameter('date_limite_inscription', $search->dateFin);
+        }
+
+        $query->orderBy('s.dateHeureDebut')
+            ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit)
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Returns number of sortie
+     * @return void 
+     */
+    public function getTotalAnnonces(SearchData $search, Particpant $currentUser){
+        $query = $this->createQueryBuilder('s')
+            ->select('COUNT(s)');
+            
+        // On filtre les données
+        if (!empty($search->q)){
+            $query = $query
+                ->andWhere('s.nomSortie LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if (!empty($search->site)){
+            $query = $query
+                ->andWhere('c.id = (:site)')
+                ->setParameter('site', $search->site);
+        }
+        if ($search->organiser == true){
+            $query = $query
+                ->andWhere('s.organisateur = (:user)')
+                ->setParameter('user', $currentUser);
+        }
+        if ($search->inscrit == true && $search->pasInscrit == true){
+
+        } else {
+            if ($search->inscrit == true){
+                $query = $query
+                    ->addSelect('i')
+                    ->join('s.inscriptions', 'i')
+                    ->andWhere('i.participants = :user')
+                    ->setParameter('user', $currentUser)
+                ;
+            }
+            if ($search->pasInscrit == true){
+                $query = $query
+                    ->addSelect('i')
+                    ->leftJoin('s.inscriptions', 'i')
+                   ->andWhere('i.participants is null OR i.participants != (:user)')
+                    ->setParameter('user', $currentUser)
+                ;
+            }
+        }
+        if ($search->passee == true){
+            $query = $query
+                ->andWhere('e.libelle = (:libelle)')
+                ->setParameter('libelle', 'passee');
+        }
+        if ($search->dateDebut !== null){
+            $query = $query
+                ->andWhere('s.dateHeureDebut > = (:dateHeureDebut)')
+                ->setParameter('dateHeureDebut', $search->dateDebut);
+        }
+        if ($search->dateFin !== null){
+            $query = $query
+                ->andWhere('s.dateLimiteInscription < = (:date_limite_inscription)')
+                ->setParameter('date_limite_inscription', $search->dateFin);
+        }
+
+        return $query->getQuery()->getSingleScalarResult();
     }
 }

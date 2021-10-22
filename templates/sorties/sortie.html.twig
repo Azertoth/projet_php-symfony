@@ -65,12 +65,13 @@
 					{{ form_row(sortieForm.publish) }}
 				</div>
 				<div class="col-4">
-					{{ form_row(sortieForm.cancel) }}
+					{# {{ form_row(sortieForm.cancel) }} #}
+					<a class="btn btn-success" href="{{path('main')}}">Annuler</a>
 				</div>
 			</div>
 		</div>
 
-		{{ form_end(sortieForm) }}
+		{{ form_end(sortieForm, {'render_rest': false}) }}
 
 
 	</div>
